@@ -1,0 +1,135 @@
+﻿@{
+    Layout = null; // You can set your desired layout here if needed.
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Tickets</title>
+    <style>
+        /* Your CSS code here */
+        .container {
+            width: 100%;
+            display: flex;
+            overflow: auto;
+            min-height: 100vh;
+            align-items: flex-start;
+            flex-direction: column;
+            justify-content: flex-start;
+            background-image: linear-gradient(to right, #434343 0%, black 100%);
+        }
+
+        .text {
+            color: rgb(255, 255, 255);
+            width: 382px;
+            height: 98px;
+            align-self: center;
+            text-align: center;
+            text-transform: capitalize;
+        }
+
+        .container1 {
+            flex: 0 0 auto;
+            width: 100%;
+            display: flex;
+            position: relative;
+            align-items: center;
+            border-color: #46c6d2;
+            border-style: dashed;
+            border-width: 2px;
+            justify-content: flex-start;
+        }
+
+        .container2 {
+            flex: 0 0 auto;
+            width: 200px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text4 {
+            color: rgb(251, 251, 251);
+        }
+
+        .container3 {
+            top: -1px;
+            flex: 0 0 auto;
+            left: 445px;
+            width: 200px;
+            height: 100px;
+            display: flex;
+            position: absolute;
+            flex-wrap: wrap;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text5 {
+            color: rgb(251, 251, 251);
+        }
+
+        .container4 {
+            top: 0px;
+            flex: 0 0 auto;
+            left: 878px;
+            width: 299px;
+            height: 100px;
+            margin: auto;
+            display: flex;
+            position: absolute;
+            align-items: flex-end;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text6 {
+            color: rgb(251, 251, 251);
+            width: 269px;
+        }
+
+        .container5 {
+            flex: 0 0 auto;
+            right: 30px;
+            width: 200px;
+            bottom: -4px;
+            height: 100px;
+            display: flex;
+            position: absolute;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text7 {
+            color: rgb(251, 251, 251);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text">
+            <span>All Tickets</span>
+            <br>
+            <br>
+        </h1>
+        <div class="container1">
+            <div class="container2">
+                <h1 class="text4">Ticket Number</h1>
+            </div>
+            <div class="container3">
+                <h1 class="text5">Subject</h1>
+            </div>
+            <div class="container4">
+                <h1 class="text6">Last Updated</h1>
+            </div>
+            <div class="container5">
+                <h1 class="text7">Status</h1>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

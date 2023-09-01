@@ -1,0 +1,31 @@
+C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\appsettings.Development.json
+C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\appsettings.json
+C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\WIL Project.staticwebassets.runtime.json
+C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\WIL Project.exe
+C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\WIL Project.deps.json
+C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\WIL Project.runtimeconfig.json
+C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\WIL Project.dll
+C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\WIL Project.pdb
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.csproj.AssemblyReference.cache
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.AssemblyInfoInputs.cache
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.AssemblyInfo.cs
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.csproj.CoreCompileInputs.cache
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.RazorAssemblyInfo.cache
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.RazorAssemblyInfo.cs
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\staticwebassets\msbuild.WIL Project.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\staticwebassets\msbuild.build.WIL Project.props
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.WIL Project.props
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.WIL Project.props
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\staticwebassets.pack.json
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\staticwebassets.build.json
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\staticwebassets.development.json
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\scopedcss\bundle\WIL Project.styles.css
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\scopedcss\projectbundle\WIL Project.bundle.scp.css
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.dll
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\refint\WIL Project.dll
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.pdb
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.genruntimeconfig.cache
+C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\ref\WIL Project.dll

@@ -1,0 +1,271 @@
+﻿@{
+    Layout = null; // You can set your desired layout here if needed.
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Ticket</title>
+    <style>
+        /* Your CSS code here */
+        .container {
+            width: 100%;
+            display: flex;
+            overflow: auto;
+            min-height: 100vh;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .desktop1 {
+            width: 100%;
+            height: 1024px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            align-items: center;
+            flex-shrink: 0;
+            justify-content: flex-start;
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .menu {
+            top: 0px;
+            left: 0px;
+            width: 1440px;
+            height: 70px;
+            display: flex;
+            overflow: hidden;
+            position: absolute;
+            align-items: flex-start;
+            flex-shrink: 0;
+            background-color: rgba(0, 150, 183, 1);
+        }
+
+        .usersvgrepocom11 {
+            top: 6px;
+            left: 1266px;
+            width: 53px;
+            height: 59px;
+            position: absolute;
+        }
+
+        .ticket-form {
+            gap: 22px;
+            top: 170px;
+            left: 297px;
+            width: 609px;
+            display: flex;
+            padding: 42px 129px;
+            overflow: hidden;
+            position: absolute;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .text {
+            color: rgba(0, 0, 0, 1);
+            width: 335px;
+            height: auto;
+            text-align: left;
+            line-height: normal;
+        }
+
+        .text02 {
+            color: rgba(0, 0, 0, 1);
+            height: auto;
+            text-align: left;
+            line-height: normal;
+        }
+
+        .details {
+            width: 351px;
+            height: 493px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            align-items: flex-start;
+            flex-shrink: 0;
+        }
+
+        .text04 {
+            top: 11px;
+            color: rgba(0, 0, 0, 1);
+            height: auto;
+            position: absolute;
+            font-size: 14px;
+            font-style: Light;
+            text-align: left;
+            font-family: Inter;
+            font-weight: 300;
+            line-height: normal;
+            font-stretch: normal;
+            text-decoration: none;
+        }
+
+        .text06 {
+            top: 118px;
+            color: rgba(0, 0, 0, 1);
+            height: auto;
+            position: absolute;
+            font-size: 14px;
+            font-style: Light;
+            text-align: left;
+            font-family: Inter;
+            font-weight: 300;
+            line-height: normal;
+            font-stretch: normal;
+            text-decoration: none;
+        }
+
+        .text08 {
+            top: 333px;
+            left: 7px;
+            color: rgba(0, 0, 0, 1);
+            height: auto;
+            position: absolute;
+            font-size: 14px;
+            font-style: Light;
+            text-align: left;
+            font-family: Inter;
+            font-weight: 300;
+            line-height: normal;
+            font-stretch: normal;
+            text-decoration: none;
+        }
+
+        .file-selection {
+            gap: 10px;
+            top: 354px;
+            left: 7px;
+            width: 217px;
+            display: flex;
+            padding: 10px;
+            position: absolute;
+            align-items: center;
+            flex-shrink: 0;
+            border-color: rgba(0, 0, 0, 0.3400000035762787);
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 9px;
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .choosefilebutton {
+            gap: 10px;
+            width: 105px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            border-color: rgba(0, 0, 0, 1);
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 9px;
+            background-color: rgba(0, 150, 183, 1);
+        }
+
+        .text10 {
+            color: rgba(0, 0, 0, 1);
+            width: 89px;
+            height: auto;
+            font-size: 11px;
+            font-style: Light;
+            text-align: center;
+            font-family: Inter;
+            font-weight: 300;
+            line-height: normal;
+            font-stretch: normal;
+            text-decoration: none;
+        }
+
+        .button {
+            gap: 10px;
+            top: 434px;
+            left: 258px;
+            width: 80px;
+            display: flex;
+            padding: 8px 16px;
+            position: absolute;
+            align-items: center;
+            border-radius: 6px;
+            justify-content: center;
+            background-color: rgba(0, 150, 183, 1);
+        }
+
+        .text12 {
+            color: rgba(255, 255, 255, 1);
+            height: auto;
+            text-align: left;
+            line-height: 24px;
+        }
+
+        .textarea {
+            top: 180px;
+            left: 128px;
+            width: 274px;
+            position: absolute;
+        }
+
+        .textarea1 {
+            top: 265px;
+            left: 127px;
+            width: 281px;
+            height: 160px;
+            position: absolute;
+            margin-top: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="desktop1">
+            <div class="menu">
+                <img alt="usersvgrepocom111055"
+                     src="/usersvgrepocom111055-o2rv.svg"
+                     class="usersvgrepocom11" />
+            </div>
+            <div class="ticket-form">
+                <span class="main-heading">
+                    <span>Please Fill in the form below</span>
+                </span>
+                <span class="subheading">
+                    <span>Ticket Details</span>
+                </span>
+                <div class="details">
+                    <span class="text04">
+                        <span>
+                            Enter the subject
+                            <span dangerouslySetInnerHTML={{
+                                  __html: ' ' ,
+                                  }} />
+                        </span>
+                    </span>
+                    <span class="text06">
+                        <span>Enter the description (50 characters maximum)</span>
+                    </span>
+                    <span class="text08">
+                        <span>Upload an attachment</span>
+                    </span>
+                    <div class="file-selection">
+                        <button class="choosefilebutton">
+                            <span class="text10">
+                                <span>Choose a file</span>
+                            </span>
+                        </button>
+                    </div>
+                    <button class="button">
+                        <span class="body-medium">
+                            <span>Submit</span>
+                        </span>
+                    </button>
+                </div>
+                <textarea placeholder="Enter Subject"
+                          class="textarea"></textarea>
+                <textarea placeholder="Enter your Description"
+                          class="textarea1"></textarea>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
