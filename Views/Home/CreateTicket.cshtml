@@ -8,6 +8,15 @@
     <title>Create Ticket</title>
     <style>
         /* CSS code for the Home component */
+        body {
+            margin: 0; 
+            height: 100vh; 
+            background-image: linear-gradient(to right, #434343 0%, black 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .container {
             width: 100%;
             display: flex;
@@ -26,7 +35,6 @@
             align-items: center;
             flex-shrink: 0;
             justify-content: center;
-            background-image: linear-gradient(to right, #434343 0%, black 100%);
         }
 
         .ticket-form {
@@ -41,6 +49,7 @@
             align-items: flex-start;
             flex-direction: column;
         }
+
 
         .text {
             color: #ffffff;
@@ -204,8 +213,7 @@
                         </span>
                     </span>
                     <span class="text06">
-                        <span>Enter the description (50 characters maximum)</span>
-                        <textarea placeholder="Enter your Description" class="textarea"></textarea>
+                        <span>Enter the description (200 characters maximum)</span>
                     </span>
                     <span class="text08">
                         <span>Upload an attachment</span>
@@ -216,8 +224,9 @@
                         </span>
                     </button>
                 </div>
+                <textarea placeholder="Enter your Description" class="textarea1"></textarea>
                 <textarea placeholder="Enter Subject" class="textarea"></textarea>
-                <textarea placeholder="Enter your Description" class="textarea"></textarea>
+                <textarea placeholder="Enter your Subject" class="textarea"></textarea>
             </div>
             <button class="choosefilebutton">
                 <span class="text12">
