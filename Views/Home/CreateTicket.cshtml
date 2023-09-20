@@ -1,239 +1,209 @@
 ﻿@{
-    Layout = null; 
+    Layout = null;
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Ticket</title>
-    <style>
-        
-        body {
-            margin: 0; 
-            height: 100vh; 
-            background-image: linear-gradient(to right, #434343 0%, black 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+<style>
+    body, html {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
 
-        .container {
-            width: 100%;
-            display: flex;
-            overflow: auto;
-            min-height: 100vh;
-            align-items: center;
-            flex-direction: column;
-        }
+    .home-container {
+        font-family: Arial, sans-serif;
+        width: 100%;
+        display: flex;
+        overflow: auto;
+        min-height: 100vh;
+        align-items: center;
+        flex-direction: column;
+    }
 
-        .desktop1 {
-            width: 100%;
-            height: 1024px;
-            display: flex;
-            overflow: hidden;
-            position: relative;
-            align-items: center;
-            flex-shrink: 0;
-            justify-content: center;
-        }
+    .home-desktop1 {
+        font-family: Arial, sans-serif;
+        width: 100%;
+        height: 1024px;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+        align-items: center;
+        flex-shrink: 0;
+        justify-content: center;
+        background-image: linear-gradient(to right, #434343 0%, black 100%);
+    }
 
-        .ticket-form {
-            gap: 22px;
-            top: 170px;
-            left: 297px;
-            width: 609px;
-            display: flex;
-            padding: 42px 129px;
-            overflow: hidden;
-            position: absolute;
-            align-items: flex-start;
-            flex-direction: column;
-        }
+    .home-ticket-form {
+        gap: 22px;
+        top: 170px;
+        left: 297px;
+        width: 853px;
+        display: flex;
+        padding: 42px 129px;
+        overflow: hidden;
+        position: absolute;
+        align-items: flex-start;
+        flex-direction: column;
+    }
 
+    .home-text {
+        font-family: Arial, sans-serif;
+        color: #ffffff;
+        width: 335px;
+        height: auto;
+        text-align: left;
+        line-height: normal;
+    }
 
-        .text {
-            color: #ffffff;
-            width: 335px;
-            height: auto;
-            text-align: left;
-            line-height: normal;
-        }
+    .home-text02 {
+        font-family: Arial, sans-serif;
+        color: #ffffff;
+        height: auto;
+        text-align: left;
+        line-height: normal;
+    }
 
-        .text02 {
-            color: #ffffff;
-            height: auto;
-            text-align: left;
-            line-height: normal;
-        }
+    .home-details {
+        width: 527px;
+        height: 635px;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+        align-items: flex-start;
+        flex-shrink: 0;
+    }
 
-        .details {
-            width: 351px;
-            height: 493px;
-            display: flex;
-            overflow: hidden;
-            position: relative;
-            align-items: flex-start;
-            flex-shrink: 0;
-        }
+    .home-text04 {
+        font-family: Arial, sans-serif;
+        top: 11px;
+        color: #ffffff;
+        height: auto;
+        position: absolute;
+        font-size: 14px;
+        text-align: left;
+        font-weight: 300;
+        line-height: normal;
+        font-stretch: normal;
+        text-decoration: none;
+    }
 
-        .text04 {
-            top: 11px;
-            color: #ffffff;
-            height: auto;
-            position: absolute;
-            font-size: 14px;
-            font-style: Light;
-            text-align: left;
-            font-family: Inter;
-            font-weight: 300;
-            line-height: normal;
-            font-stretch: normal;
-            text-decoration: none;
-        }
+    .home-text06 {
+        font-family: Arial, sans-serif;
+        top: 118px;
+        color: #ffffff;
+        height: auto;
+        position: absolute;
+        font-size: 14px;
+        text-align: left;
+        font-weight: 300;
+        line-height: normal;
+        font-stretch: normal;
+        text-decoration: none;
+    }
 
-        .text06 {
-            top: 118px;
-            color: #ffffff;
-            height: auto;
-            position: absolute;
-            font-size: 14px;
-            font-style: Light;
-            text-align: left;
-            font-family: Inter;
-            font-weight: 300;
-            line-height: normal;
-            font-stretch: normal;
-            text-decoration: none;
-        }
+    .home-text08 {
+        font-family: Arial, sans-serif;
+        top: 333px;
+        left: 7px;
+        color: #fdfdfd;
+        height: auto;
+        position: absolute;
+        font-size: 14px;
+        text-align: left;
+        font-weight: 300;
+        line-height: normal;
+        font-stretch: normal;
+        text-decoration: none;
+    }
 
-        .text08 {
-            top: 333px;
-            left: 7px;
-            color: #fdfdfd;
-            height: auto;
-            position: absolute;
-            font-size: 14px;
-            font-style: Light;
-            text-align: left;
-            font-family: Inter;
-            font-weight: 300;
-            line-height: normal;
-            font-stretch: normal;
-            text-decoration: none;
-        }
+    .home-button {
+        gap: 10px;
+        right: 17px;
+        width: 80px;
+        bottom: 22px;
+        display: flex;
+        padding: 8px 16px;
+        position: absolute;
+        align-items: center;
+        border-radius: 6px;
+        justify-content: center;
+        background-color: rgba(0, 150, 183, 1);
+    }
 
-        .button {
-            gap: 10px;
-            top: 434px;
-            left: 258px;
-            width: 80px;
-            display: flex;
-            padding: 8px 16px;
-            position: absolute;
-            align-items: center;
-            border-radius: 6px;
-            justify-content: center;
-            background-color: rgba(0, 150, 183, 1);
-        }
+    .home-text10 {
+        font-family: Arial, sans-serif;
+        color: rgba(255, 255, 255, 1);
+        height: auto;
+        text-align: left;
+        line-height: 24px;
+    }
 
-        .text10 {
-            color: rgba(255, 255, 255, 1);
-            height: auto;
-            text-align: left;
-            line-height: 24px;
-        }
+    .home-textarea {
+        font-family: Arial, sans-serif;
+        top: 180px;
+        left: 128px;
+        width: 274px;
+        position: absolute;
+    }
 
-        .textarea {
-            top: 180px;
-            left: 128px;
-            width: 274px;
-            position: absolute;
-        }
+    .home-textarea1 {
+        font-family: Arial, sans-serif;
+        top: 265px;
+        left: 127px;
+        width: 281px;
+        height: 160px;
+        position: absolute;
+        margin-top: 13px;
+    }
 
-        .textarea1 {
-            top: 265px;
-            left: 127px;
-            width: 281px;
-            height: 160px;
-            position: absolute;
-            margin-top: 13px;
-        }
+    .home-button1 {
+        font-family: Arial, sans-serif;
+        gap: 10px;
+        top: 661px;
+        left: 432px;
+        width: 150px;
+        display: flex;
+        padding: 8px 16px;
+        position: absolute;
+        align-items: center;
+        border-radius: 6px;
+        justify-content: center;
+        background-color: rgba(0, 150, 183, 1);
+    }
 
-        .choosefilebutton {
-            gap: 10px;
-            top: 667px;
-            left: 431px;
-            width: 105px;
-            height: 25px;
-            display: flex;
-            position: absolute;
-            align-items: center;
-            flex-shrink: 0;
-            border-color: rgba(0, 0, 0, 1);
-            border-style: solid;
-            border-width: 1px;
-            border-radius: 9px;
-            background-color: rgba(0, 150, 183, 1);
-        }
+    .home-text12 {
+        font-family: Arial, sans-serif;
+        color: rgb(255, 255, 255);
+        height: auto;
+        text-align: left;
+        line-height: 24px;
+    }
+</style>
 
-        .text12 {
-            color: #ffffff;
-            right: 9px;
-            width: 89px;
-            bottom: 4px;
-            height: auto;
-            position: absolute;
-            font-size: 11px;
-            font-style: Light;
-            text-align: center;
-            font-family: Inter;
-            font-weight: 300;
-            line-height: normal;
-            font-stretch: normal;
-            text-decoration: none;
-        }
-
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="desktop1">
-            <div class="ticket-form">
-                <span class="text main-heading">
-                    <span>Please Fill in the form below</span>
+<div class="home-container">
+    <div class="home-desktop1">
+        <div class="home-ticket-form">
+            <span class="home-text MainHeading">
+                <span>Please Fill in the form below</span>
+            </span>
+            <span class="home-text02 subheading"><span>Ticket Details</span></span>
+            <div class="home-details">
+                <span class="home-text04"><span>Enter the subject</span></span>
+                <span class="home-text06">
+                    <span>Enter the description (50 characters maximum)</span>
                 </span>
-                <span class="text02 subheading">
-                    <span>Ticket Details</span>
-                </span>
-                <div class="details">
-                    <span class="text04">
-                        <span>
-                            Enter the subject
-                            <span></span>
-                        </span>
-                    </span>
-                    <span class="text06">
-                        <span>Enter the description (200 characters maximum)</span>
-                    </span>
-                    <span class="text08">
-                        <span>Upload an attachment</span>
-                    </span>
-                    <button class="button">
-                        <span class="text10 body-medium">
-                            <span>Submit</span>
-                        </span>
-                    </button>
-                </div>
-                <textarea placeholder="Enter your Description" class="textarea1"></textarea>
-                <textarea placeholder="Enter Subject" class="textarea"></textarea>
-                <textarea placeholder="Enter your Subject" class="textarea"></textarea>
+                <span class="home-text08"><span>Upload an attachment</span></span>
+                <button class="home-button">
+                    <span class="home-text10 bodyMedium"><span>Submit</span></span>
+                </button>
             </div>
-            <button class="choosefilebutton">
-                <span class="text12">
-                    <span>Choose a file</span>
-                </span>
-            </button>
+            <textarea placeholder="Enter Subject" class="home-textarea textarea"></textarea>
+            <textarea placeholder="Enter your Description" class="home-textarea1 textarea"></textarea>
         </div>
+        <button class="home-button1">
+            <span class="home-text12">Choose files</span>
+        </button>
     </div>
-</body>
-</html>
+</div>
+
