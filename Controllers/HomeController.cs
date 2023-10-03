@@ -30,7 +30,7 @@ namespace WIL_Project.Controllers
 
         public IActionResult YourTickets()
         {
-            return View();
+            return View(); // Students Tickets
         }
 
         public IActionResult CreateTicket()
