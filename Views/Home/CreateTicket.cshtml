@@ -9,130 +9,201 @@
         padding: 0;
         width: 100%;
         height: 100%;
-        overflow: hidden;
     }
 
     .home-container {
         font-family: Arial, sans-serif;
         width: 100%;
-        height: 100%;
         display: flex;
+        overflow: auto;
+        min-height: 100vh;
         align-items: center;
-        justify-content: center;
-        background-image: linear-gradient(to right, #434343 0%, black 100%);
+        flex-direction: column;
     }
 
     .home-desktop1 {
         font-family: Arial, sans-serif;
         width: 100%;
-        height: 100%;
+        height: 1024px;
         display: flex;
+        overflow: hidden;
         position: relative;
         align-items: center;
         flex-shrink: 0;
         justify-content: center;
-        flex-direction: column;
-        text-align: center;
+        background-image: linear-gradient(to right, #434343 0%, black 100%);
     }
 
     .home-ticket-form {
         gap: 22px;
-        width: 100%;
-        max-width: 900px;
-        box-sizing: border-box;
+        top: 170px;
+        left: 297px;
+        width: 853px;
+        display: flex;
+        padding: 42px 129px;
+        overflow: hidden;
+        position: absolute;
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-    .home-text, .home-text02, .home-text04, .home-text06, .home-text08, .home-text10 {
+    .home-text {
+        font-family: Arial, sans-serif;
         color: #ffffff;
-    }
-
-     .home-text12{
-         color:black;
-     }
-
-    .home-text-input, .home-textarea-box {
-        width: calc(100% - 20px);
-        box-sizing: border-box;
-        margin-bottom: 10px;
-        border: none;
-        background-color: rgba(255, 255, 255, 0.1);
-        padding: 10px;
-        color: #ffffff;
-    }
-
-    .home-file-input {
-        display: none;
-    }
-
-    .home-button, .home-button1 {
-        align-items: center;
-        appearance: none;
-        background-color: #fff;
-        border-radius: 24px;
-        border-style: none;
-        box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px, rgba(0, 0, 0, .14) 0 6px 10px 0, rgba(0, 0, 0, .12) 0 1px 18px 0;
-        box-sizing: border-box;
-        color: #3c4043;
-        cursor: pointer;
-        display: inline-flex;
-        fill: currentcolor;
-        font-family: "Google Sans", Roboto, Arial, sans-serif;
-        font-size: 14px;
-        font-weight: 500;
-        height: 48px;
-        justify-content: center;
-        letter-spacing: .25px;
+        width: 335px;
+        height: auto;
+        text-align: left;
         line-height: normal;
-        max-width: 100%;
-        overflow: visible;
-        padding: 2px 24px;
+    }
+
+    .home-text02 {
+        font-family: Arial, sans-serif;
+        color: #ffffff;
+        height: auto;
+        text-align: left;
+        line-height: normal;
+    }
+
+    .home-details {
+        width: 527px;
+        height: 635px;
+        display: flex;
+        overflow: hidden;
         position: relative;
-        text-align: center;
-        text-transform: none;
-        transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1), opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-        width: auto;
-        will-change: transform, opacity;
-        z-index: 0;
+        align-items: flex-start;
+        flex-shrink: 0;
+    }
+
+    .home-text04 {
+        font-family: Arial, sans-serif;
+        top: 11px;
+        color: #ffffff;
+        height: auto;
+        position: absolute;
+        font-size: 14px;
+        text-align: left;
+        font-weight: 300;
+        line-height: normal;
+        font-stretch: normal;
+        text-decoration: none;
+    }
+
+    .home-text06 {
+        font-family: Arial, sans-serif;
+        top: 118px;
+        color: #ffffff;
+        height: auto;
+        position: absolute;
+        font-size: 14px;
+        text-align: left;
+        font-weight: 300;
+        line-height: normal;
+        font-stretch: normal;
+        text-decoration: none;
+    }
+
+    .home-text08 {
+        font-family: Arial, sans-serif;
+        top: 333px;
+        left: 7px;
+        color: #fdfdfd;
+        height: auto;
+        position: absolute;
+        font-size: 14px;
+        text-align: left;
+        font-weight: 300;
+        line-height: normal;
+        font-stretch: normal;
+        text-decoration: none;
+    }
+
+    .home-button {
+        gap: 10px;
+        right: 17px;
+        width: 80px;
+        bottom: 22px;
+        display: flex;
+        padding: 8px 16px;
+        position: absolute;
+        align-items: center;
+        border-radius: 6px;
+        justify-content: center;
+        background-color: rgba(0, 150, 183, 1);
+    }
+
+    .home-text10 {
+        font-family: Arial, sans-serif;
+        color: rgba(255, 255, 255, 1);
+        height: auto;
+        text-align: left;
+        line-height: 24px;
+    }
+
+    .home-textarea {
+        font-family: Arial, sans-serif;
+        top: 180px;
+        left: 128px;
+        width: 274px;
+        position: absolute;
+    }
+
+    .home-textarea1 {
+        font-family: Arial, sans-serif;
+        top: 265px;
+        left: 127px;
+        width: 281px;
+        height: 160px;
+        position: absolute;
+        margin-top: 13px;
+    }
+
+    .home-button1 {
+        font-family: Arial, sans-serif;
+        gap: 10px;
+        top: 661px;
+        left: 432px;
+        width: 150px;
+        display: flex;
+        padding: 8px 16px;
+        position: absolute;
+        align-items: center;
+        border-radius: 6px;
+        justify-content: center;
+        background-color: rgba(0, 150, 183, 1);
+    }
+
+    .home-text12 {
+        font-family: Arial, sans-serif;
+        color: rgb(255, 255, 255);
+        height: auto;
+        text-align: left;
+        line-height: 24px;
     }
 </style>
 
-<script>
-    function updateInputBox() {
-        const subjectInput = document.getElementById('subjectInput');
-        const descriptionInput = document.getElementById('descriptionInput');
-        const subjectBox = document.getElementById('subjectBox');
-        const descriptionBox = document.getElementById('descriptionBox');
-
-        subjectBox.textContent = subjectInput.value;
-        descriptionBox.textContent = descriptionInput.value;
-    }
-</script>
 <div class="home-container">
     <div class="home-desktop1">
-        <form action="/ControllerName/CreateTicket" method="post">
-            <div class="home-ticket-form">
-                <span class="home-text MainHeading">
-                    <div classname="home-desktop1">
-                        Please Fill in the form below
-                    </div>
-                </span>
-                <span class="home-text02 subheading"><span>Ticket Details</span></span>
+        <div class="home-ticket-form">
+            <span class="home-text MainHeading">
+                <span>Please Fill in the form below</span>
+            </span>
+            <span class="home-text02 subheading"><span>Ticket Details</span></span>
+            <div class="home-details">
                 <span class="home-text04"><span>Enter the subject</span></span>
-                <input type="text" id="subjectInput" name="TicketSubject" placeholder="Enter Subject" class="home-text-input" />
                 <span class="home-text06">
-                    <span>Enter the description (200 characters maximum)</span>
+                    <span>Enter the description (50 characters maximum)</span>
                 </span>
-                <input id="descriptionInput" name="TicketBody" placeholder="Enter your Description" class="home-text-input" />
+                <span class="home-text08"><span>Upload an attachment</span></span>
+                <button class="home-button">
+                    <span class="home-text10 bodyMedium"><span>Submit</span></span>
+                </button>
             </div>
-            <input type="file" name="attachment" class="home-file-input" />
-            <button type="submit" class="home-button1">
-                <span class="home-text12">Submit the ticket</span>
-            </button>
-        </form> <!-- Close the form element here -->
+            <textarea placeholder="Enter Subject" class="home-textarea textarea"></textarea>
+            <textarea placeholder="Enter your Description" class="home-textarea1 textarea"></textarea>
+        </div>
+        <button class="home-button1">
+            <span class="home-text12">Choose files</span>
+        </button>
     </div>
-    <div class="home-text-input" id="subjectBox"></div>
-    <div class="home-textarea-box" id="descriptionBox"></div>
 </div>
+
