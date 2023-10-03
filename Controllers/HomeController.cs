@@ -26,44 +26,27 @@ namespace WIL_Project.Controllers
 
         public IActionResult AllTickets()
         {
-            return View();
+            List<Ticket> tickets = GetTicketsFromDatabase(); // Assuming you have a method to fetch data from the database
+            return View(tickets);
         }
-
+        private List<Ticket> GetTicketsFromDatabase()
+        {
+            // Implement logic to fetch data from your database here
+            // Example:
+            List<Ticket> tickets = new List<Ticket>
+            {
+                new Ticket { TicketId = 1, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
+                new Ticket { TicketId = 2, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" }
+            };
+            return tickets;
+        }
         public IActionResult YourTickets()
         {
             return View();
         }
-
         [HttpPost]
-        public IActionResult CreateTicket(IFormFile attachment)
+        public IActionResult CreateTicket()
         {
-            using (var dbContext = new CobraContext())
-            {
-                Ticket newTicket = new Ticket
-                {
-                    TicketSubject = Request.Form["TicketSubject"],
-                    TicketBody = Request.Form["TicketBody"],
-                    TicketCreationDate = DateTime.Now
-                };
-
-                if (attachment != null && attachment.Length > 0)
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        attachment.CopyTo(memoryStream);
-
-                        TicketAttachment ticketAttachment = new TicketAttachment
-                        {
-                            Attachments1 = memoryStream.ToArray()
-                        };
-
-                    }
-                }
-
-                dbContext.Tickets.Add(newTicket);
-                dbContext.SaveChanges();
-            }
-
             return View();
         }
 

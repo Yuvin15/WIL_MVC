@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null; 
 }
-
+@model List<Ticket>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            width:100%;
         }
 
         body {
@@ -62,6 +63,7 @@
             align-items: center;
             flex-direction: column;
             justify-content: center;
+            color: rgb(251, 251, 251);
         }
 
         .text4 {
@@ -81,6 +83,7 @@
             align-items: center;
             flex-direction: column;
             justify-content: center;
+            color: rgb(251, 251, 251);
         }
 
         .text5 {
@@ -100,6 +103,7 @@
             align-items: flex-end;
             flex-direction: column;
             justify-content: center;
+            color: rgb(251, 251, 251);
         }
 
         .text6 {
@@ -119,6 +123,7 @@
             align-items: center;
             flex-direction: column;
             justify-content: center;
+            color: rgb(251, 251, 251);
         }
 
 
@@ -149,6 +154,23 @@
                 <h1 class="text7">Status</h1>
             </div>
         </div>
+        @foreach (var ticket in Model)
+        {
+            <div class="container1">
+                <div class="container2">
+                    <p>@ticket.TicketId</p>
+                </div>
+                <div class="container3">
+                    <p>@ticket.TicketSubject</p>
+                </div>
+                <div class="container4">
+                    <p>@ticket.TicketCreationDate</p>
+                </div>
+                <div class="container5">
+                    <p style="color: @(ticket.TicketStatus == "Open" ? "#2deb5f" : "#e81c1c")">@ticket.TicketStatus</p>
+                </div>
+            </div>
+        }
     </div>
 </body>
 </html>
