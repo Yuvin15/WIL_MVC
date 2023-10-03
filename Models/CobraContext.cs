@@ -35,11 +35,14 @@ public partial class CobraContext : DbContext
     {
         modelBuilder.Entity<Admin>(entity =>
         {
-            entity.HasKey(e => e.AdminId).HasName("PK__Admin__719FE4E894BE1E8E");
+            entity.HasKey(e => e.AdminId).HasName("PK__Admin__719FE4E84396A3FC");
 
             entity.ToTable("Admin");
 
-            entity.Property(e => e.AdminId).HasColumnName("AdminID");
+            entity.Property(e => e.AdminId)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("AdminID");
             entity.Property(e => e.AdminEmail)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -52,11 +55,14 @@ public partial class CobraContext : DbContext
 
         modelBuilder.Entity<SupportTeamMember>(entity =>
         {
-            entity.HasKey(e => e.SupportMemberId).HasName("PK__SupportT__62477E4393FE1C4B");
+            entity.HasKey(e => e.SupportMemberId).HasName("PK__SupportT__62477E4357723557");
 
             entity.ToTable("SupportTeamMember");
 
-            entity.Property(e => e.SupportMemberId).HasColumnName("SupportMemberID");
+            entity.Property(e => e.SupportMemberId)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("SupportMemberID");
             entity.Property(e => e.SupportMemberEmail)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -69,7 +75,7 @@ public partial class CobraContext : DbContext
 
         modelBuilder.Entity<Ticket>(entity =>
         {
-            entity.HasKey(e => e.TicketId).HasName("PK__Ticket__ED7260D971C15E7C");
+            entity.HasKey(e => e.TicketId).HasName("PK__Ticket__ED7260D928776428");
 
             entity.ToTable("Ticket");
 
@@ -89,20 +95,23 @@ public partial class CobraContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("Ticket_Subject");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.UserId)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("UserID");
 
             entity.HasOne(d => d.TicketAttachments).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.TicketAttachmentsId)
-                .HasConstraintName("FK__Ticket__Ticket_A__17036CC0");
+                .HasConstraintName("FK__Ticket__Ticket_A__498EEC8D");
 
             entity.HasOne(d => d.User).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__Ticket__UserID__160F4887");
+                .HasConstraintName("FK__Ticket__UserID__489AC854");
         });
 
         modelBuilder.Entity<TicketAttachment>(entity =>
         {
-            entity.HasKey(e => e.TicketAttachmentsId).HasName("PK__TicketAt__B27E4A2138F3BD8C");
+            entity.HasKey(e => e.TicketAttachmentsId).HasName("PK__TicketAt__B27E4A2153CCCB0E");
 
             entity.Property(e => e.TicketAttachmentsId).HasColumnName("Ticket_AttachmentsID");
             entity.Property(e => e.Attachments1)
@@ -118,7 +127,7 @@ public partial class CobraContext : DbContext
 
         modelBuilder.Entity<TicketResponse>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__TicketRe__B736E9545D944F03");
+            entity.HasKey(e => e.ResponseId).HasName("PK__TicketRe__B736E954F8D2B1BF");
 
             entity.Property(e => e.ResponseId).HasColumnName("Response_ID");
             entity.Property(e => e.ResponseBody)
@@ -132,14 +141,17 @@ public partial class CobraContext : DbContext
 
             entity.HasOne(d => d.Ticket).WithMany(p => p.TicketResponses)
                 .HasForeignKey(d => d.TicketId)
-                .HasConstraintName("FK__TicketRes__Ticke__19DFD96B");
+                .HasConstraintName("FK__TicketRes__Ticke__4C6B5938");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCACA903C082");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC0207712B");
 
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.UserId)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("UserID");
             entity.Property(e => e.UserEmail)
                 .HasMaxLength(255)
                 .IsUnicode(false)

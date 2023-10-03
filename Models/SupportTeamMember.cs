@@ -5,7 +5,7 @@ namespace WIL_Project.Models;
 
 public partial class SupportTeamMember
 {
-    public int SupportMemberId { get; set; }
+    public string SupportMemberId { get; set; } = null!;
 
     public string? SupportMemberEmail { get; set; }
 
