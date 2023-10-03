@@ -25,12 +25,24 @@ namespace WIL_Project.Controllers
 
         public IActionResult AllTickets()
         {
-            return View();
+            List<Ticket> tickets = GetTicketsFromDatabase(); // Assuming you have a method to fetch data from the database
+            return View(tickets);
+        }
+        private List<Ticket> GetTicketsFromDatabase()
+        {
+            // Implement logic to fetch data from your database here
+            // Example:
+            List<Ticket> tickets = new List<Ticket>
+            {
+                new Ticket { TicketId = 1, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
+                new Ticket { TicketId = 2, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" }
+            };
+            return tickets;
         }
 
         public IActionResult YourTickets()
         {
-            return View(); // Students Tickets
+            return View(); 
         }
 
         public IActionResult CreateTicket()
