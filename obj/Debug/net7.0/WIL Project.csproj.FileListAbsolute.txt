@@ -504,4 +504,3 @@ C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\runtimes
 C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\lab_services_student\source\repos\WIL Project\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\WIL Project.csproj.CopyComplete
-C:\Users\lab_services_student\source\repos\WIL Project\obj\Debug\net7.0\scopedcss\Views\Shared\_LayoutStaff.cshtml.rz.scp.css

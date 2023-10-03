@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Diagnostics;
 using WIL_Project.Models;
 
@@ -34,36 +33,8 @@ namespace WIL_Project.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult CreateTicket(IFormFile attachment)
+        public IActionResult CreateTicket()
         {
-            using (var dbContext = new CobraContext())
-            {
-                Ticket newTicket = new Ticket
-                {
-                    TicketSubject = Request.Form["TicketSubject"],
-                    TicketBody = Request.Form["TicketBody"],
-                    TicketCreationDate = DateTime.Now
-                };
-
-                if (attachment != null && attachment.Length > 0)
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        attachment.CopyTo(memoryStream);
-
-                        TicketAttachment ticketAttachment = new TicketAttachment
-                        {
-                            Attachments1 = memoryStream.ToArray()
-                        };
-
-                    }
-                }
-
-                dbContext.Tickets.Add(newTicket);
-                dbContext.SaveChanges();
-            }
-
             return View();
         }
 
