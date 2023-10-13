@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WIL_Project.Models;
 
@@ -13,6 +14,7 @@ namespace WIL_Project.Controllers
             _logger = logger;
         }
 
+        
         public IActionResult Index()
         {
             return View();
