@@ -2,8 +2,10 @@
     Layout = null;
 }
 
-@model WIL_Project.Models.Ticket
 
+@{
+    ViewData["Title"] = "Create a New Ticket";
+}
 <style>
     body, html {
         font-family: Arial, sans-serif;
@@ -13,201 +15,82 @@
         height: 100%;
     }
 
-    .home-container {
-        font-family: Arial, sans-serif;
+    .container {
         width: 100%;
         display: flex;
         overflow: auto;
         min-height: 100vh;
         align-items: center;
         flex-direction: column;
-    }
-
-    .home-desktop1 {
-        font-family: Arial, sans-serif;
-        width: 100%;
-        height: 1024px;
-        display: flex;
-        overflow: hidden;
-        position: relative;
-        align-items: center;
-        flex-shrink: 0;
-        justify-content: center;
         background-image: linear-gradient(to right, #434343 0%, black 100%);
+        padding: 40px;
     }
 
-    .home-ticket-form {
-        gap: 22px;
-        top: 170px;
-        left: 297px;
-        width: 853px;
+    .title {
+        color: #ffffff;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .label {
+        color: #ffffff;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .input {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .input-large {
+        height: 240px;
+    }
+
+    .button {
         display: flex;
-        padding: 42px 129px;
-        overflow: hidden;
-        position: absolute;
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .home-text {
-        font-family: Arial, sans-serif;
-        color: #ffffff;
-        width: 335px;
-        height: auto;
-        text-align: left;
-        line-height: normal;
-    }
-
-    .home-text02 {
-        font-family: Arial, sans-serif;
-        color: #ffffff;
-        height: auto;
-        text-align: left;
-        line-height: normal;
-    }
-
-    .home-details {
-        width: 527px;
-        height: 635px;
-        display: flex;
-        overflow: hidden;
-        position: relative;
-        align-items: flex-start;
-        flex-shrink: 0;
-    }
-
-    .home-text04 {
-        font-family: Arial, sans-serif;
-        top: 11px;
-        color: #ffffff;
-        height: auto;
-        position: absolute;
-        font-size: 14px;
-        text-align: left;
-        font-weight: 300;
-        line-height: normal;
-        font-stretch: normal;
-        text-decoration: none;
-    }
-
-    .home-text06 {
-        font-family: Arial, sans-serif;
-        top: 118px;
-        color: #ffffff;
-        height: auto;
-        position: absolute;
-        font-size: 14px;
-        text-align: left;
-        font-weight: 300;
-        line-height: normal;
-        font-stretch: normal;
-        text-decoration: none;
-    }
-
-    .home-text08 {
-        font-family: Arial, sans-serif;
-        top: 333px;
-        left: 7px;
-        color: #fdfdfd;
-        height: auto;
-        position: absolute;
-        font-size: 14px;
-        text-align: left;
-        font-weight: 300;
-        line-height: normal;
-        font-stretch: normal;
-        text-decoration: none;
-    }
-
-    .home-button {
-        gap: 10px;
-        right: 17px;
-        width: 80px;
-        bottom: 22px;
-        display: flex;
-        padding: 8px 16px;
-        position: absolute;
         align-items: center;
-        border-radius: 6px;
         justify-content: center;
-        background-color: rgba(0, 150, 183, 1);
+        width: 240px;
+        height: 58px;
+        background-color: rgb(13, 117, 232);
+        color: #ffffff;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
     }
 
-    .home-text10 {
-        font-family: Arial, sans-serif;
-        color: rgba(255, 255, 255, 1);
-        height: auto;
-        text-align: left;
-        line-height: 24px;
-    }
+        .button:hover {
+            background-color: #0a75c2;
+        }
 
-    .home-textarea {
-        font-family: Arial, sans-serif;
-        top: 180px;
-        left: 128px;
-        width: 274px;
-        position: absolute;
-    }
-
-    .home-textarea1 {
-        font-family: Arial, sans-serif;
-        top: 265px;
-        left: 127px;
-        width: 281px;
-        height: 160px;
-        position: absolute;
-        margin-top: 13px;
-    }
-
-    .home-button1 {
-        font-family: Arial, sans-serif;
-        gap: 10px;
-        top: 661px;
-        left: 432px;
-        width: 150px;
-        display: flex;
-        padding: 8px 16px;
-        position: absolute;
-        align-items: center;
-        border-radius: 6px;
-        justify-content: center;
-        background-color: rgba(0, 150, 183, 1);
-    }
-
-    .home-text12 {
-        font-family: Arial, sans-serif;
-        color: rgb(255, 255, 255);
-        height: auto;
-        text-align: left;
-        line-height: 24px;
-    }
+        .button span {
+            text-align: center;
+        }
 </style>
-<div class="home-container">
-    <div class="home-desktop1">
-        <form asp-action="CreateTicket" asp-controller="Ticket" method="post" enctype="multipart/form-data">
-            <div class="home-ticket-form">
-                <span class="home-text MainHeading">
-                    <span>Please Fill in the form below</span>
-                </span>
-                <span class="home-text02 subheading"><span>Ticket Details</span></span>
-                <div class="home-details">
-                    <span class="home-text04"><span>Enter the subject</span></span>
-                    <input asp-for="TicketSubject" placeholder="Enter Subject" class="home-textarea textarea" />
 
-                    <span class="home-text06">
-                        <span>Enter the description (50 characters maximum)</span>
-                    </span>
-                    <textarea asp-for="TicketBody" placeholder="Enter your Description" class="home-textarea1 textarea"></textarea>
+<div class="container">
+    <h1 class="title">@ViewData["Title"]</h1>
 
-                    <span class="home-text08"><span>Upload an attachment</span></span>
-                    <input type="file" name="attachment" class="home-button1" />
+    <form asp-action="SubmitTicket" asp-controller="Ticket" method="post" enctype="multipart/form-data">
+        <label for="subject" class="label">Ticket Subject:</label>
+        <input type="text" id="subject" name="subject" class="input" required>
 
-                    <button class="home-button" type="submit">
-                        <span class="home-text10 bodyMedium"><span>Submit</span></span>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
+        <label for="body" class="label">Ticket Body:</label>
+        <textarea id="body" name="body" class="textarea input input-large" required></textarea>
+
+        <div class="attachment-container">
+            <label for="attachments" class="label">Add Attachments:</label>
+            <input type="file" id="attachments" name="attachments" class="file-input" multiple>
+            <p class="label">Note: You can select multiple files at once.</p>
+        </div>
+
+        <input type="submit" value="Submit Ticket" class="button">
+    </form>
 </div>
-
