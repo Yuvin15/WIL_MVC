@@ -1,7 +1,7 @@
 ﻿@{
-    Layout = null; 
+    Layout = null;
 }
-
+@model List<Ticket>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,10 +12,6 @@
             margin: 0;
             padding: 0;
             height: 100%;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,16 +20,15 @@
 
         .container {
             width: 100%;
-            display: flex;
             overflow: auto;
             min-height: 100vh;
+            display: flex;
             align-items: flex-start;
             flex-direction: column;
             justify-content: flex-start;
         }
 
         .text {
-            font-family: Arial, sans-serif;
             color: rgb(255, 255, 255);
             width: 382px;
             height: 98px;
@@ -42,112 +37,32 @@
             text-transform: capitalize;
         }
 
-        .container1 {
-            flex: 0 0 auto;
+        .header-container {
             width: 100%;
             display: flex;
-            position: relative;
             align-items: center;
-            border-color: #46c6d2;
-            border-style: dashed;
-            border-width: 2px;
-            justify-content: flex-start;
+            border: 2px dashed #46c6d2;
+            justify-content: space-between;
         }
 
-        .container2 {
-            flex: 0 0 auto;
-            width: 200px;
-            height: 100px;
+        .header-item {
+            flex: 1;
             display: flex;
+            justify-content: center;
             align-items: center;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .text4 {
-            font-family: Arial, sans-serif;
-            color: rgb(251, 251, 251);
-        }
-
-        .container3 {
-            top: -1px;
-            flex: 0 0 auto;
-            left: 445px;
-            width: 200px;
             height: 100px;
-            display: flex;
-            position: absolute;
-            flex-wrap: wrap;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .text5 {
-            font-family: Arial, sans-serif;
-            color: rgb(251, 251, 251);
-        }
-
-        .container4 {
-            top: 0px;
-            flex: 0 0 auto;
-            left: 878px;
-            width: 299px;
-            height: 100px;
-            margin: auto;
-            display: flex;
-            position: absolute;
-            align-items: flex-end;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .text6 {
-            font-family: Arial, sans-serif;
-            color: rgb(251, 251, 251);
-            width: 269px;
-        }
-
-        .container5 {
-            flex: 0 0 auto;
-            right: 30px;
-            width: 200px;
-            bottom: -4px;
-            height: 100px;
-            display: flex;
-            position: absolute;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-
-        .text7 {
-            font-family: Arial, sans-serif;
             color: rgb(251, 251, 251);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="text">
-            <span>All Tickets</span>
-            <br>
-            <br>
-        </h1>
-        <div class="container1">
-            <div class="container2">
-                <h1 class="text4">Ticket Number</h1>
-            </div>
-            <div class="container3">
-                <h1 class="text5">Subject</h1>
-            </div>
-            <div class="container4">
-                <h1 class="text6">Last Updated</h1>
-            </div>
-            <div class="container5">
-                <h1 class="text7">Status</h1>
-            </div>
+        <h1 class="text">All Tickets</h1>
+        <div class="header-container">
+            <div class="header-item">Ticket Number</div>
+            <div class="header-item">Subject</div>
+            <div class="header-item">Last Updated</div>
+            <div class="header-item">Status</div>
         </div>
     </div>
 </body>
