@@ -2,6 +2,9 @@
     Layout = null;
 }
 
+@model WIL_Project.Models.Ticket
+
+
 <style>
     body, html {
         font-family: Arial, sans-serif;
@@ -180,30 +183,32 @@
         line-height: 24px;
     }
 </style>
-
 <div class="home-container">
     <div class="home-desktop1">
-        <div class="home-ticket-form">
-            <span class="home-text MainHeading">
-                <span>Please Fill in the form below</span>
-            </span>
-            <span class="home-text02 subheading"><span>Ticket Details</span></span>
-            <div class="home-details">
-                <span class="home-text04"><span>Enter the subject</span></span>
-                <span class="home-text06">
-                    <span>Enter the description (50 characters maximum)</span>
+        <form asp-action="CreateTicket" asp-controller="Ticket" method="post" enctype="multipart/form-data">
+            <div class="home-ticket-form">
+                <span class="home-text MainHeading">
+                    <span>Please Fill in the form below</span>
                 </span>
-                <span class="home-text08"><span>Upload an attachment</span></span>
-                <button class="home-button">
-                    <span class="home-text10 bodyMedium"><span>Submit</span></span>
-                </button>
+                <span class="home-text02 subheading"><span>Ticket Details</span></span>
+                <div class="home-details">
+                    <span class="home-text04"><span>Enter the subject</span></span>
+                    <input asp-for="TicketSubject" placeholder="Enter Subject" class="home-textarea textarea" />
+
+                    <span class="home-text06">
+                        <span>Enter the description (50 characters maximum)</span>
+                    </span>
+                    <textarea asp-for="TicketBody" placeholder="Enter your Description" class="home-textarea1 textarea"></textarea>
+
+                    <span class="home-text08"><span>Upload an attachment</span></span>
+                    <input type="file" name="attachment" class="home-button1" />
+
+                    <button class="home-button" type="submit">
+                        <span class="home-text10 bodyMedium"><span>Submit</span></span>
+                    </button>
+                </div>
             </div>
-            <textarea placeholder="Enter Subject" class="home-textarea textarea"></textarea>
-            <textarea placeholder="Enter your Description" class="home-textarea1 textarea"></textarea>
-        </div>
-        <button class="home-button1">
-            <span class="home-text12">Choose files</span>
-        </button>
+        </form>
     </div>
 </div>
 
