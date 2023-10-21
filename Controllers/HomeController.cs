@@ -38,9 +38,10 @@ namespace WIL_Project.Controllers
 
         public IActionResult AllTickets()
         {
-            List<Ticket> tickets = GetTicketsFromDatabase(); 
+            List<Ticket> tickets = GetTicketsFromDatabase();
             return View(tickets);
         }
+
         private List<Ticket> GetTicketsFromDatabase() // Change this to getting stuff from db
         {
             // Implement logic to fetch data from your database here
@@ -60,8 +61,12 @@ namespace WIL_Project.Controllers
                 new Ticket { TicketId = 11, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
                 new Ticket { TicketId = 12, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
                 new Ticket { TicketId = 13, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                new Ticket { TicketId = 14, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" }
+                new Ticket { TicketId = 14, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
+                new Ticket { TicketId = 15, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
+                new Ticket { TicketId = 16, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
+                new Ticket { TicketId = 17, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" }
             };
+            
             return tickets;
         }
 
@@ -116,13 +121,11 @@ namespace WIL_Project.Controllers
                     _obraContext.SaveChanges();
                 }
 
-                TempData["SuccessMessage"] = "Ticket submitted successfully!";
                 return RedirectToAction("YourTickets", "Home");
 
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Error while submitting ticket. Please try again.";
                 return View(); 
             }
 

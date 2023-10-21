@@ -5,6 +5,21 @@
 @{
     ViewData["Title"] = "Create a New Ticket";
 }
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <style>
     body, html {
         font-family: Arial, sans-serif;
@@ -90,18 +105,4 @@
         <input type="submit" value="Submit Ticket" class="button">
     </form>
 </div>
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
 

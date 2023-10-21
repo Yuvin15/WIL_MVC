@@ -43,8 +43,8 @@
             width: 100%;
             position: relative;
             align-items: center;
-            border-color: #46c6d2;
-            border-style: dashed;
+            /*border-color: #46c6d2;*/
+            /*border-style: dashed;*/
             border-width: 2px;
             justify-content: space-between;
         }
@@ -54,6 +54,7 @@
             overflow-y: auto;  
             width: 100%;
             color: #FFFFFF;
+            cursor: pointer;
         }
 
 
@@ -62,6 +63,7 @@
             align-items: center;
             justify-content: center;
             color: #FFFFFF;
+            width: 20%;
         }
 
 
@@ -94,6 +96,7 @@
             <br>
             <br>
         </h1>
+        
         <div class="header">
             <div class="container2">
                 <h1 class="text4">Ticket Number</h1>
@@ -111,7 +114,7 @@
         <div class="ticketsContainer">
             @foreach (var ticket in Model)
             {
-                <div class="header">
+                <div class="header ticketRow">
                     <div class="container2">
                         <p>@ticket.TicketId</p>
                     </div>
@@ -159,12 +162,13 @@
             closeModal();
         });
 
-        var ticketRows = document.querySelectorAll('.header:not(:first-child)');
+        var ticketRows = document.querySelectorAll('.ticketRow');
         ticketRows.forEach(function (row, index) {
-            row.addEventListener('click', function () {
-                openModal(row.querySelector('.container3 p').textContent, "Sample ticket body for demonstration");
+        row.addEventListener('click', function () {
+        openModal(row.querySelector('.container3 p').textContent, "Sample ticket body for demonstration");
             });
         });
+
     </script>
 </body>
 
