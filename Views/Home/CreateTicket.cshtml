@@ -2,7 +2,6 @@
     Layout = null;
 }
 
-
 @{
     ViewData["Title"] = "Create a New Ticket";
 }
@@ -76,9 +75,7 @@
 </style>
 
 <div class="container">
-    <h1 class="title">@ViewData["Title"]</h1>
-
-    <form asp-action="SubmitTicket" asp-controller="Ticket" method="post" enctype="multipart/form-data">
+    <form asp-action="CreateTicket" asp-controller="Home" method="post" enctype="multipart/form-data">
         <label for="subject" class="label">Ticket Subject:</label>
         <input type="text" id="subject" name="subject" class="input" required>
 
@@ -90,7 +87,21 @@
             <input type="file" id="attachments" name="attachments" class="file-input" multiple>
             <p class="label">Note: You can select multiple files at once.</p>
         </div>
-
         <input type="submit" value="Submit Ticket" class="button">
     </form>
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
