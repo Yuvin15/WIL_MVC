@@ -1010,3 +1010,8 @@ C:\Users\lab_services_student\source\repos\WIL_MVC\obj\Debug\net7.0\refint\WIL P
 C:\Users\lab_services_student\source\repos\WIL_MVC\obj\Debug\net7.0\WIL Project.pdb
 C:\Users\lab_services_student\source\repos\WIL_MVC\obj\Debug\net7.0\WIL Project.genruntimeconfig.cache
 C:\Users\lab_services_student\source\repos\WIL_MVC\obj\Debug\net7.0\ref\WIL Project.dll
+C:\Users\lab_services_student\source\repos\WIL_MVC\bin\Debug\net7.0\BouncyCastle.Cryptography.dll
+C:\Users\lab_services_student\source\repos\WIL_MVC\bin\Debug\net7.0\MailKit.dll
+C:\Users\lab_services_student\source\repos\WIL_MVC\bin\Debug\net7.0\MimeKit.dll
+C:\Users\lab_services_student\source\repos\WIL_MVC\bin\Debug\net7.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\lab_services_student\source\repos\WIL_MVC\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll

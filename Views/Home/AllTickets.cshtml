@@ -88,7 +88,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <h1 class="text">
@@ -114,7 +113,7 @@
         <div class="ticketsContainer">
             @foreach (var ticket in Model)
             {
-                <div class="header ticketRow">
+                <div class="header ticketRow" data-ticketbody="@ticket.TicketBody">
                     <div class="container2">
                         <p>@ticket.TicketId</p>
                     </div>
@@ -131,8 +130,6 @@
             }
         </div>
     </div>
-
-    <!-- Modal for Ticket Details -->
     <div id="ticketModal">
         <h2>Ticket Details</h2>
         <p><strong>Subject:</strong> <span id="modalSubject"></span></p>
@@ -158,18 +155,38 @@
 
         document.getElementById('sendReply').addEventListener('click', function () {
             var reply = document.getElementById('replyBody').value;
-            alert("Reply sent: " + reply);
-            closeModal();
+
+            // Here, make an AJAX call to send the email
+            fetch('/your-endpoint-url', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: 'recipient-email@example.com',
+                    subject: 'Ticket Reply',
+                    body: reply,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Reply sent: " + reply);
+                    closeModal();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         });
+
 
         var ticketRows = document.querySelectorAll('.ticketRow');
         ticketRows.forEach(function (row, index) {
-        row.addEventListener('click', function () {
-        openModal(row.querySelector('.container3 p').textContent, "Sample ticket body for demonstration");
+            row.addEventListener('click', function () {
+                var ticketSubject = row.querySelector('.container3 p').textContent;
+                var ticketBody = row.getAttribute('data-ticketbody');  
+                openModal(ticketSubject, ticketBody);
             });
         });
-
     </script>
 </body>
-
 </html>

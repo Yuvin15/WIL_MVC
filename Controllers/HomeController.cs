@@ -9,6 +9,9 @@ using System.IO;   // for MemoryStream
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace WIL_Project.Controllers
 {
@@ -26,27 +29,34 @@ namespace WIL_Project.Controllers
         }
 
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index(){ return View(); }
 
-        public IActionResult Privacy()
+        public IActionResult Privacy(){ return View(); }
+        private void SeedTickets()
         {
-            return View();
+            if (!_obraContext.Tickets.Any())
+            {
+                var tickets = new List<Ticket>
+                {
+                    new Ticket { TicketSubject = "Sample Subject 1", TicketBody = "Testing for now", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
+                };
+
+                _obraContext.Tickets.AddRange(tickets);
+                _obraContext.SaveChanges();
+            }
         }
 
         public IActionResult AllTickets()
         {
+            SeedTickets();
+
             List<Ticket> tickets = GetTicketsFromDatabase();
             return View(tickets);
         }
 
         private List<Ticket> GetTicketsFromDatabase() // Change this to getting stuff from db
         {
-            // Implement logic to fetch data from your database here
-            // Example:
-            List<Ticket> tickets = new List<Ticket>
+            /*List<Ticket> tickets = new List<Ticket>
             {
                 new Ticket { TicketId = 1, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
                 new Ticket { TicketId = 2, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
@@ -65,16 +75,40 @@ namespace WIL_Project.Controllers
                 new Ticket { TicketId = 15, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
                 new Ticket { TicketId = 16, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
                 new Ticket { TicketId = 17, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" }
-            };
-            
-            return tickets;
+            };*/
+            return _obraContext.Tickets
+                      .Include(t => t.User)              
+                      .Include(t => t.TicketAttachments) 
+                      .Include(t => t.TicketResponses)   
+                      .ToList();
         }
 
-        private static void sendResponse()
+        /*private static void SendResponse(string toEmail, string subject, string body)
         {
-            // This is the email they send back when responding to the ticket
-        }
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Your Name", "your-email@gmail.com"));
+            message.To.Add(new MailboxAddress("", toEmail));
+            message.Subject = subject;
+            message.Body = new TextPart("plain")
+            {
+                Text = body
+            };
 
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("your-email@gmail.com", "your-password");
+
+                client.Send(message);
+                client.Disconnect(true);
+            }
+        }
+        [HttpPost]
+        public IActionResult SendEmailReply([FromBody] EmailRequest request)
+        {
+            SendResponse(request.Email, request.Subject, request.Body);
+            return Ok(new { Message = "Email sent!" });
+        }*/
         public IActionResult YourTickets()
         {
             return View(); 
@@ -95,29 +129,27 @@ namespace WIL_Project.Controllers
                 {
                     TicketSubject = subject,
                     TicketBody = body,
-                    TicketCreationDate = DateTime.Now
+                    TicketCreationDate = DateTime.Now,
+                    TicketStatus = "Open"
                 };
                 _obraContext.Tickets.Add(newTicket);
                 _obraContext.SaveChanges();
 
                 if (attachments != null && attachments.Any())
                 {
-                    var newAttachment = new TicketAttachment();
-
                     if (attachments.Count > 0)
                     {
-                        newAttachment.Attachments1 = GetBytesFromFormFile(attachments[0]);
+                        newTicket.TicketAttatchment1 = GetBytesFromFormFile(attachments[0]);
                     }
                     if (attachments.Count > 1)
                     {
-                        newAttachment.Attachments2 = GetBytesFromFormFile(attachments[1]);
+                        newTicket.TicketAttatchment2 = GetBytesFromFormFile(attachments[1]);
                     }
                     if (attachments.Count > 2)
                     {
-                        newAttachment.Attachments3 = GetBytesFromFormFile(attachments[2]);
+                        newTicket.TicketAttatchment3 = GetBytesFromFormFile(attachments[2]);
                     }
 
-                    _obraContext.TicketAttachments.Add(newAttachment);
                     _obraContext.SaveChanges();
                 }
 
@@ -128,10 +160,7 @@ namespace WIL_Project.Controllers
             {
                 return View(); 
             }
-
         }
-
-
         private byte[] GetBytesFromFormFile(IFormFile formFile)
         {
             using var memoryStream = new MemoryStream();
