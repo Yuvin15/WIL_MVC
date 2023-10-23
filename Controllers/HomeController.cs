@@ -25,7 +25,7 @@ namespace WIL_Project.Controllers
             _logger = logger;
         }
 
-
+        //input testing hello how are you
         public IActionResult Index()
         {
             return View();
