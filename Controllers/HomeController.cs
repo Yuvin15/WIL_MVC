@@ -26,6 +26,7 @@ namespace WIL_Project.Controllers
         }
 
         //input testing hello how are you
+        //updating branch
         public IActionResult Index()
         {
             return View();
@@ -64,7 +65,8 @@ namespace WIL_Project.Controllers
                 new Ticket { TicketId = 14, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
                 new Ticket { TicketId = 15, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
                 new Ticket { TicketId = 16, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                new Ticket { TicketId = 17, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" }
+                new Ticket { TicketId = 17, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed"},
+                 new Ticket { TicketId = 18, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" }
             };
             
             return tickets;
