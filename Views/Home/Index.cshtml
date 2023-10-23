@@ -7,7 +7,6 @@
 <head>
     <title>DUT Support Page</title>
     <style>
-        @@import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900");
         body {
             margin: 0;
             padding: 0;
@@ -18,8 +17,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-           /* background-image: linear-gradient(to right, #434343 0%, black 100%);*/
-           background-color: black
+            background-image: linear-gradient(to right, #434343 0%, black 100%);
         }
         .App {
             display: flex;
@@ -32,58 +30,16 @@
             text-align: center;
         }
 
-
         .Title {
-            /*margin-top: 10px;
+            margin-top: 10px;
             margin-bottom: 100px;
             font-size: 40px;
-            color: white;*/
-            margin-top: 10px; 
-            margin-bottom: 100px; 
-            font-family: "Poppins", sans-serif;
-            /*font-size: 40px; 
-            color: #73B9EE;
-
-            
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            /*text-align: center; 
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            text-transform: uppercase;*/
-            background-image: linear-gradient( -225deg, #86CEFA 0%, #73B9EE 29%, #5494DA 67%, #3373C4 100% );
-            background-size: auto auto;
-            background-clip: border-box;
-            background-size: 200% auto;
-            color: #fff;
-            background-clip: text;
-            text-fill-color: transparent;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: textclip 2s linear infinite;
-            display: inline-block;
-            font-size: 40px;
-
-          
-            
+            color: white;
         }
 
-       
-
-        @@keyframes textclip {
-  to {
-    background-position: 200% center;
-  }
-}
-
-       
-
-
-
-
         .Logo-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%
+            width: auto;
+            height: 210px;
         }
 
         .App-header {
@@ -91,9 +47,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: #202121;
-            border-radius: 10px
-            
+            color: white;
         }
 
         .Input-container {
@@ -106,14 +60,12 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-             background-color: darkgrey
-
         }
 
         .button-17 {
             align-items: center;
             appearance: none;
-            background-color: darkgrey;
+            background-color: #fff;
             border-radius: 24px;
             border-style: none;
             box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px, rgba(0, 0, 0, .14) 0 6px 10px 0, rgba(0, 0, 0, .12) 0 1px 18px 0;
@@ -145,8 +97,8 @@
         }
 
             .button-17:hover {
-                background: #73B9EE;
-                color: darkgrey
+                background: #F6F9FE;
+                color: #174ea6;
             }
 
             .button-17:active {
@@ -165,13 +117,10 @@
         <h1 class="Title">
             Welcome to the DUT Support Page
         </h1>
-       @* <div>
+        <div>
             <img src="https://reactjs.org/logo-og.png" alt="React Logo" class="Logo-image" />
-        </div>*@
+        </div>
         <div class="App-header">
-              <div class="Input-container">
-                <img src="https://reactjs.org/logo-og.png" alt="React Logo" class="Logo-image" />
-                  </div>
             <div class="Input-container">
                 <input type="text" placeholder="Enter Username" />
             </div>
