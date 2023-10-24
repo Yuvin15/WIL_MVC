@@ -129,9 +129,11 @@ namespace WIL_Project.Controllers
                 {
                     TicketSubject = subject,
                     TicketBody = body,
-                    TicketCreationDate = DateTime.Now,
+                    TicketCreationDate = DateTime.UtcNow,
                     TicketStatus = "Open"
                 };
+                /*_logger.LogInformation(_obraContext.Model.ToDebugString());*/
+                Console.WriteLine(newTicket.TicketCreationDate); 
                 _obraContext.Tickets.Add(newTicket);
                 _obraContext.SaveChanges();
 
@@ -149,23 +151,41 @@ namespace WIL_Project.Controllers
                     {
                         newTicket.TicketAttatchment3 = GetBytesFromFormFile(attachments[2]);
                     }
-
                     _obraContext.SaveChanges();
                 }
 
                 return RedirectToAction("YourTickets", "Home");
-
             }
             catch (Exception ex)
             {
-                return View(); 
+                return View();
             }
         }
+
         private byte[] GetBytesFromFormFile(IFormFile formFile)
         {
             using var memoryStream = new MemoryStream();
             formFile.CopyTo(memoryStream);
             return memoryStream.ToArray();
+        }
+
+        public IActionResult GetAttachmentImage(int ticketId, int attachmentNumber)
+        {
+            var ticket = _obraContext.Tickets.Find(ticketId);
+            byte[] fileBytes = null;
+
+            switch (attachmentNumber)
+            {
+                case 1: fileBytes = ticket.TicketAttatchment1; break;
+                case 2: fileBytes = ticket.TicketAttatchment2; break;
+                case 3: fileBytes = ticket.TicketAttatchment3; break;
+            }
+
+            if (fileBytes != null)
+            {
+                return File(fileBytes, "image/jpeg");
+            }
+            return NotFound();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

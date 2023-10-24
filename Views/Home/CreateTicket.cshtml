@@ -87,6 +87,13 @@
     .button span {
         text-align: center;
     }
+
+    #attachment-previews img {
+        max-width: 150px;
+        max-height: 150px;
+        margin: 10px;
+    }
+
 </style>
 
 <div class="container">
@@ -101,8 +108,33 @@
             <label for="attachments" class="label">Add Attachments:</label>
             <input type="file" id="attachments" name="attachments" class="file-input" multiple>
             <p class="label">Note: You can select multiple files at once.</p>
+
+            <div id="attachment-previews">
+                <img id="preview1" src="#" alt="Preview 1" style="display:none;" />
+                <img id="preview2" src="#" alt="Preview 2" style="display:none;" />
+                <img id="preview3" src="#" alt="Preview 3" style="display:none;" />
+            </div>
         </div>
+
         <input type="submit" value="Submit Ticket" class="button">
     </form>
 </div>
 
+<script>
+    document.getElementById('attachments').addEventListener('change', function (event) {
+        var files = event.target.files;
+        for (var i = 0; i < files.length && i < 3; i++) {
+            var file = files[i];
+            if (file && file.type.startsWith('image/')) { // Ensure it's an image
+                var reader = new FileReader();
+                reader.onload = (function (imgTag) {
+                    return function (e) {
+                        imgTag.src = e.target.result;
+                        imgTag.style.display = 'block';
+                    };
+                })(document.getElementById('preview' + (i + 1)));
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+</script>
