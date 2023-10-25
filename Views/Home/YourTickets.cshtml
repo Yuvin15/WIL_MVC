@@ -149,15 +149,16 @@
         .create-ticket-btn:hover {
             background-color: #349b9d; 
         }
-    </style>
 
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="create-ticket-container">
-            <button class="create-ticket-btn">Create A New Ticket</button>
+            <a href="@Url.Action("CreateTicket", "Home")">
+                <button class="create-ticket-btn">Create A New Ticket</button>
+            </a>
         </div>
-
         <h1 class="text">
             <span>Your Tickets</span>
             <br>

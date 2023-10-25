@@ -32,7 +32,7 @@ namespace WIL_Project.Controllers
         public IActionResult Index(){ return View(); }
 
         public IActionResult Privacy(){ return View(); }
-        private void SeedTickets()
+        /*private void SeedTickets()
         {
             if (!_obraContext.Tickets.Any())
             {
@@ -44,11 +44,11 @@ namespace WIL_Project.Controllers
                 _obraContext.Tickets.AddRange(tickets);
                 _obraContext.SaveChanges();
             }
-        }
+        }*/
 
         public IActionResult AllTickets()
         {
-            SeedTickets();
+            /*SeedTickets();*/
 
             List<Ticket> tickets = GetTicketsFromDatabase();
             return View(tickets);
@@ -76,6 +76,7 @@ namespace WIL_Project.Controllers
                 new Ticket { TicketId = 16, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
                 new Ticket { TicketId = 17, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" }
             };*/
+
             return _obraContext.Tickets
                       .Include(t => t.User)              
                       .Include(t => t.TicketAttachments) 
@@ -83,11 +84,12 @@ namespace WIL_Project.Controllers
                       .ToList();
         }
 
-        /*private static void SendResponse(string toEmail, string subject, string body)
+
+        private static void SendResponse(string toEmail, string subject, string body)
         {
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Your Name", "your-email@gmail.com"));
-            message.To.Add(new MailboxAddress("", toEmail));
+            message.From.Add(new MailboxAddress("/*Replace this with your name*/", "/*Replace this with email*/"));
+            message.To.Add(new MailboxAddress("/*Replace this with email*/", toEmail));
             message.Subject = subject;
             message.Body = new TextPart("plain")
             {
@@ -97,7 +99,7 @@ namespace WIL_Project.Controllers
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
                 client.Connect("smtp.gmail.com", 587, false);
-                client.Authenticate("your-email@gmail.com", "your-password");
+                client.Authenticate("/*Replace this with email*/", "/*Replace this with App password*/");
 
                 client.Send(message);
                 client.Disconnect(true);
@@ -108,7 +110,7 @@ namespace WIL_Project.Controllers
         {
             SendResponse(request.Email, request.Subject, request.Body);
             return Ok(new { Message = "Email sent!" });
-        }*/
+        }
         public IActionResult YourTickets()
         {
             return View(); 

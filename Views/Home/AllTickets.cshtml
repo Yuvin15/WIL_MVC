@@ -157,13 +157,13 @@
             var reply = document.getElementById('replyBody').value;
 
             // Here, make an AJAX call to send the email
-            fetch('/your-endpoint-url', {
+            fetch('/Home/SendEmailReply', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: 'recipient-email@example.com',
+                    email: '/*Replace this with user email*/',
                     subject: 'Ticket Reply',
                     body: reply,
                 }),
