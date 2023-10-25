@@ -12,6 +12,11 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MailKit.Net.Smtp;
 using MimeKit;
+using Microsoft.Data.SqlClient;
+using static System.Net.WebRequestMethods;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace WIL_Project.Controllers
 {
@@ -84,41 +89,96 @@ namespace WIL_Project.Controllers
                       .ToList();
         }
 
-
-        private static void SendResponse(string toEmail, string subject, string body)
+        private async Task<string> GetAccessToken()
         {
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("/*Replace this with your name*/", "/*Replace this with email*/"));
-            message.To.Add(new MailboxAddress("/*Replace this with email*/", toEmail));
-            message.Subject = subject;
-            message.Body = new TextPart("plain")
-            {
-                Text = body
-            };
+            // Fetch the access token from where you've stored it
+            // OR
+            // Implement the OAuth flow to obtain it
+            return "YOUR_ACCESS_TOKEN";
+        }
 
-            using (var client = new MailKit.Net.Smtp.SmtpClient())
+        private async Task SendResponse(string toEmail, string subject, string body, string accessToken)
+        {
+            using (var httpClient = new HttpClient())
             {
-                client.Connect("smtp.gmail.com", 587, false);
-                client.Authenticate("/*Replace this with email*/", "/*Replace this with App password*/");
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                client.Send(message);
-                client.Disconnect(true);
+                var email = new
+                {
+                    message = new
+                    {
+                        subject = subject,
+                        body = new
+                        {
+                            contentType = "Text",
+                            content = body
+                        },
+                        toRecipients = new[]
+                        {
+                    new
+                    {
+                        emailAddress = new
+                        {
+                            address = toEmail
+                        }
+                    }
+                }
+                    }
+                };
+
+                var serializedEmail = JsonConvert.SerializeObject(email);
+                var content = new StringContent(serializedEmail, Encoding.UTF8, "application/json");
+
+                var response = await httpClient.PostAsync("https://graph.microsoft.com/v1.0/me/sendMail", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception($"Failed to send email: {response.StatusCode}");
+                }
             }
         }
+
         [HttpPost]
-        public IActionResult SendEmailReply([FromBody] EmailRequest request)
+        public async Task<IActionResult> SendEmailReply([FromBody] EmailReplyModel model)
         {
-            SendResponse(request.Email, request.Subject, request.Body);
-            return Ok(new { Message = "Email sent!" });
+            if (model == null || string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Subject) || string.IsNullOrEmpty(model.Body))
+            {
+                return BadRequest("Invalid email details provided.");
+            }
+
+            // Assuming you have stored your access token somewhere after the OAuth flow
+            string accessToken = await GetAccessToken(); // Implement the GetAccessToken method to fetch the token
+
+            await SendResponse(model.Email, model.Subject, model.Body, accessToken);
+
+            return Ok(new { message = "Email sent successfully!" });
         }
+
+
         public IActionResult YourTickets()
         {
             return View(); 
         }
-
+        
         [HttpGet]
         public IActionResult CreateTicket()
         {
+            /*try
+            {
+                SqlConnection con = new SqlConnection();
+                con.ConnectionString = @"Server = tcp:wil.database.windows.net,1433; Initial Catalog = Cobra; Persist Security Info = False; User ID = admin2; Password = Cobra123; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = False; Connection Timeout = 30";
+                con.Open();
+                string query = "ALTER TABLE Ticket ALTER COLUMN TicketCreationDate DATETIME;";
+                //SQL command to input into a database
+                SqlDataAdapter da = new SqlDataAdapter(query, con);                
+                da.SelectCommand.ExecuteNonQuery();
+                Console.WriteLine(da.ToString());
+                con.Close();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }*/
+
             return View();
         }
 
@@ -131,14 +191,13 @@ namespace WIL_Project.Controllers
                 {
                     TicketSubject = subject,
                     TicketBody = body,
-                    TicketCreationDate = DateTime.UtcNow,
+                    TicketCreationDate = DateTime.Now,
                     TicketStatus = "Open"
                 };
+                
                 /*_logger.LogInformation(_obraContext.Model.ToDebugString());*/
-                Console.WriteLine(newTicket.TicketCreationDate); 
-                _obraContext.Tickets.Add(newTicket);
-                _obraContext.SaveChanges();
-
+                /*Console.WriteLine(newTicket.TicketCreationDate);*/
+                
                 if (attachments != null && attachments.Any())
                 {
                     if (attachments.Count > 0)
@@ -153,6 +212,8 @@ namespace WIL_Project.Controllers
                     {
                         newTicket.TicketAttatchment3 = GetBytesFromFormFile(attachments[2]);
                     }
+
+                    _obraContext.Tickets.Add(newTicket);
                     _obraContext.SaveChanges();
                 }
 

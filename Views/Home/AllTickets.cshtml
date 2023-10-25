@@ -95,7 +95,6 @@
             <br>
             <br>
         </h1>
-        
         <div class="header">
             <div class="container2">
                 <h1 class="text4">Ticket Number</h1>
@@ -156,21 +155,21 @@
         document.getElementById('sendReply').addEventListener('click', function () {
             var reply = document.getElementById('replyBody').value;
 
-            // Here, make an AJAX call to send the email
+            // Make an AJAX call to send the email
             fetch('/Home/SendEmailReply', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: '/*Replace this with user email*/',
+                    email: 'USER_EMAIL',  // Replace with the email of the user
                     subject: 'Ticket Reply',
                     body: reply,
                 }),
             })
                 .then(response => response.json())
                 .then(data => {
-                    alert("Reply sent: " + reply);
+                    alert(data.message);  // Display a success message
                     closeModal();
                 })
                 .catch((error) => {

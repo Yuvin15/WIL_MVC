@@ -1,6 +1,6 @@
 ﻿namespace WIL_Project.Models
 {
-    public class EmailRequest
+    public class EmailReplyModel
     {
         public string Email { get; set; }
         public string Subject { get; set; }

@@ -243,5 +243,10 @@ public partial class CobraContext : DbContext
         OnModelCreatingPartial(modelBuilder);
     }
 
+    internal object Query<T>()
+    {
+        throw new NotImplementedException();
+    }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
