@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>WIL_Project</RootNamespace>
+    <UserSecretsId>826bbfc0-24ed-409f-96af-fb4943e97cee</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

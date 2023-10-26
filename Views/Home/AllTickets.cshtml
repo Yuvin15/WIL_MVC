@@ -1,6 +1,22 @@
 ﻿@{
     Layout = null;
+    var username = Context.Session.GetString("Username");
+    
+    // Debugging code
+    if (string.IsNullOrEmpty(username))
+    {
+        // Log: Session value for 'Username' is empty or null.
+        // You can use your application's logging mechanism here
+        // For the sake of this example, we'll use Console.WriteLine (though this won't show in Razor view).
+        Console.WriteLine("Session value for 'Username' is empty or null.");
+    }
+    else
+    {
+        // Log: Retrieved session value for 'Username'.
+        Console.WriteLine($"Retrieved session value for 'Username' is: {username}");
+    }
 }
+
 @model List<Ticket>
 <!DOCTYPE html>
 <html>
@@ -12,6 +28,10 @@
             margin: 0;
             padding: 0;
             height: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,15 +40,16 @@
 
         .container {
             width: 100%;
+            display: flex;
             overflow: auto;
             min-height: 100vh;
-            display: flex;
             align-items: flex-start;
             flex-direction: column;
             justify-content: flex-start;
         }
 
         .text {
+            font-family: Arial, sans-serif;
             color: rgb(255, 255, 255);
             width: 382px;
             height: 98px;
@@ -37,32 +58,143 @@
             text-transform: capitalize;
         }
 
-        .header-container {
+        .container1 {
+            flex: 0 0 auto;
             width: 100%;
             display: flex;
+            position: relative;
             align-items: center;
-            border: 2px dashed #46c6d2;
-            justify-content: space-between;
+            border-color: #46c6d2;
+            border-style: dashed;
+            border-width: 2px;
+            justify-content: flex-start;
         }
 
-        .header-item {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .container2 {
+            flex: 0 0 auto;
+            width: 200px;
             height: 100px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text4 {
+            font-family: Arial, sans-serif;
             color: rgb(251, 251, 251);
+        }
+
+        .container3 {
+            top: -1px;
+            flex: 0 0 auto;
+            left: 445px;
+            width: 200px;
+            height: 100px;
+            display: flex;
+            position: absolute;
+            flex-wrap: wrap;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text5 {
+            font-family: Arial, sans-serif;
+            color: rgb(251, 251, 251);
+        }
+
+        .container4 {
+            top: 0px;
+            flex: 0 0 auto;
+            left: 878px;
+            width: 299px;
+            height: 100px;
+            margin: auto;
+            display: flex;
+            position: absolute;
+            align-items: flex-end;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text6 {
+            font-family: Arial, sans-serif;
+            color: rgb(251, 251, 251);
+            width: 269px;
+        }
+
+        .container5 {
+            flex: 0 0 auto;
+            right: 30px;
+            width: 200px;
+            bottom: -4px;
+            height: 100px;
+            display: flex;
+            position: absolute;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text7 {
+            font-family: Arial, sans-serif;
+            color: rgb(251, 251, 251);
+        }
+
+        /* Added styles for the logout button */
+        .logout-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .logout-btn {
+            background-color: #ff4b5c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .session-textbox {
+            margin-right: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="text">All Tickets</h1>
-        <div class="header-container">
-            <div class="header-item">Ticket Number</div>
-            <div class="header-item">Subject</div>
-            <div class="header-item">Last Updated</div>
-            <div class="header-item">Status</div>
+        <!-- Adding the Logout button and session textbox -->
+        <div class="logout-container">
+            <span>Welcome, @username!</span> <!-- Displaying the session variable -->
+            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+
+        <h1 class="text">
+            <span>All Tickets</span>
+            <br>
+            <br>
+        </h1>
+        <div class="container1">
+            <div class="container2">
+                <h1 class="text4">Ticket Number</h1>
+            </div>
+            <div class="container3">
+                <h1 class="text5">Subject</h1>
+            </div>
+            <div class="container4">
+                <h1 class="text6">Last Updated</h1>
+            </div>
+            <div class="container5">
+                <h1 class="text7">Status</h1>
+            </div>
         </div>
     </div>
 </body>
