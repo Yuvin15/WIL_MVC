@@ -133,6 +133,8 @@
     <div id="ticketModal">
         <h2>Ticket Details</h2>
         <p><strong>Subject:</strong> <span id="modalSubject"></span></p>
+        <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+        <p><strong>Assigned To:</strong> <span id="modalAssignedTo"></span></p> <!-- Added this line -->
         <p><strong>Body:</strong></p>
         <textarea id="modalBody" rows="10" cols="50" readonly></textarea>
 
@@ -156,21 +158,21 @@
         document.getElementById('sendReply').addEventListener('click', function () {
             var reply = document.getElementById('replyBody').value;
 
-            // Here, make an AJAX call to send the email
+            // Make an AJAX call to send the email
             fetch('/Home/SendEmailReply', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: '/*Replace this with user email*/',
+                    email: 'USER_EMAIL',  // Replace with the email of the user
                     subject: 'Ticket Reply',
                     body: reply,
                 }),
             })
                 .then(response => response.json())
                 .then(data => {
-                    alert("Reply sent: " + reply);
+                    alert(data.message);  // Display a success message
                     closeModal();
                 })
                 .catch((error) => {
@@ -178,12 +180,16 @@
                 });
         });
 
-
         var ticketRows = document.querySelectorAll('.ticketRow');
         ticketRows.forEach(function (row, index) {
             row.addEventListener('click', function () {
                 var ticketSubject = row.querySelector('.container3 p').textContent;
-                var ticketBody = row.getAttribute('data-ticketbody');  
+                var ticketBody = row.getAttribute('data-ticketbody');
+                var userEmail = row.getAttribute('data-useremail');
+                var assignedTo = row.getAttribute('data-assignedto');  // fetch the AssignedTo information
+
+                document.getElementById('modalEmail').textContent = userEmail;
+                document.getElementById('modalAssignedTo').textContent = assignedTo;  // set the AssignedTo information in the modal
                 openModal(ticketSubject, ticketBody);
             });
         });

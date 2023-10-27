@@ -45,7 +45,7 @@ namespace WIL_Project.Controllers
                 _obraContext.SaveChanges();
             }
         }*/
-
+        
         public IActionResult AllTickets()
         {
             /*SeedTickets();*/
