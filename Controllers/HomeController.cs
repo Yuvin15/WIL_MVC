@@ -89,13 +89,30 @@ namespace WIL_Project.Controllers
                       .ToList();
         }
 
-        private async Task<string> GetAccessToken()
+        private static async Task<string> GetAccessToken(string clientId, string clientSecret, string redirectUri, string code)
         {
-            // Fetch the access token from where you've stored it
-            // OR
-            // Implement the OAuth flow to obtain it
-            return "YOUR_ACCESS_TOKEN";
+            using (var httpClient = new HttpClient())
+            {
+                var tokenRequest = new HttpRequestMessage(HttpMethod.Post, "https://login.microsoftonline.com/common/oauth2/v2.0/token");
+
+                tokenRequest.Content = new FormUrlEncodedContent(new Dictionary<string, string>
+                {
+                    ["client_id"] = clientId,
+                    ["scope"] = "https://graph.microsoft.com/.default",
+                    ["code"] = code,
+                    ["redirect_uri"] = redirectUri,
+                    ["grant_type"] = "authorization_code",
+                    ["client_secret"] = clientSecret
+                });
+
+                var tokenResponse = await httpClient.SendAsync(tokenRequest);
+                var tokenResponseBody = await tokenResponse.Content.ReadAsStringAsync();
+
+                var tokenData = JsonConvert.DeserializeObject<dynamic>(tokenResponseBody);
+                return tokenData.access_token;
+            }
         }
+
 
         private async Task SendResponse(string toEmail, string subject, string body, string accessToken)
         {
@@ -113,19 +130,18 @@ namespace WIL_Project.Controllers
                             contentType = "Text",
                             content = body
                         },
-                        toRecipients = new[]
-                        {
-                    new
-                    {
-                        emailAddress = new
-                        {
-                            address = toEmail
+                            toRecipients = new[]
+                            {
+                                new
+                            {
+                                emailAddress = new
+                            {
+                                address = toEmail
+                            }
                         }
-                    }
-                }
-                    }
-                };
-
+                  }
+            }
+        };
                 var serializedEmail = JsonConvert.SerializeObject(email);
                 var content = new StringContent(serializedEmail, Encoding.UTF8, "application/json");
 
@@ -146,13 +162,12 @@ namespace WIL_Project.Controllers
             }
 
             // Assuming you have stored your access token somewhere after the OAuth flow
-            string accessToken = await GetAccessToken(); // Implement the GetAccessToken method to fetch the token
-
-            await SendResponse(model.Email, model.Subject, model.Body, accessToken);
-
+            /*string accessToken = await GetAccessToken("eeda81d9-5269-402b-b580-a6575b95258c", "3qc8Q~HUp2EDiBcWomq5HkrPg6ccx53KMDG4Cbcm", redirectUri, code); // Implement the GetAccessToken method to fetch the token
+*/
+            /*await SendResponse(model.Email, model.Subject, model.Body, accessToken);
+*/
             return Ok(new { message = "Email sent successfully!" });
         }
-
 
         public IActionResult YourTickets()
         {
