@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using WIL_Project.Models;
 using Microsoft.AspNetCore.Http; // For session
+using Microsoft.EntityFrameworkCore;
+using WIL_Project.Logic;
 
 namespace WIL_Project.Areas.Identity.Pages.Account
 {
@@ -30,18 +32,21 @@ namespace WIL_Project.Areas.Identity.Pages.Account
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly ApplicationDbContext _dbContext;  // Assuming you're using ApplicationDbContext for your Identity setup
 
         public ExternalLoginModel(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
-            ILogger<ExternalLoginModel> logger)
+            ILogger<ExternalLoginModel> logger,
+            ApplicationDbContext dbContext)  // Inject the DbContext
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _logger = logger;
+            _dbContext = dbContext;  // Initialize the DbContext
         }
 
         [BindProperty]
@@ -86,14 +91,58 @@ namespace WIL_Project.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
-                
-                // Store the username in the session.
                 HttpContext.Session.SetString("Username", info.Principal.Identity.Name);
-                Console.WriteLine("Username", info.Principal.Identity.Name);
-                _logger.LogInformation("Setting session Username to: {Username}", info.Principal.Identity.Name);
 
+                var user = await this._userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+                var domain = GetDomainFromEmail(info.Principal.FindFirstValue(ClaimTypes.Email));
+                string role;
 
-                return LocalRedirect("~/Home/AllTickets");
+                if (domain == "vcconnect.edu.za")
+                {
+                    role = "Student";
+                }
+                else if (domain == "jadwat.co.za")
+                {
+                    role = "Staff";
+                }
+                else
+                {
+                    role = "Unknown";
+                }
+
+                try
+                {
+                    var userClaims = await _userManager.GetClaimsAsync(user);
+                    if (!userClaims.Any(claim => claim.Type == ClaimTypes.Role && claim.Value == role))
+                    {
+                        var claimResult = await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, role));
+                        if (!claimResult.Succeeded)
+                        {
+                            _logger.LogError("Failed to add claim for user {UserID}. Errors: {Errors}", user.Id, string.Join(", ", claimResult.Errors.Select(e => e.Description)));
+                            return LocalRedirect("~/Error");
+                        }
+
+                        await _dbContext.SaveChangesAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error occurred while adding claim for user {UserID}.", user.Id);
+                    return LocalRedirect("~/Error");
+                }
+
+                if (role == "Student")
+                {
+                    return LocalRedirect("~/Home/YourTickets");
+                }
+                else if (role == "Staff")
+                {
+                    return LocalRedirect("~/Home/AllTickets");
+                }
+                else
+                {
+                    return LocalRedirect("~/Error");
+                }
             }
 
             if (result.IsLockedOut)
@@ -170,7 +219,7 @@ namespace WIL_Project.Areas.Identity.Pages.Account
         }
 
         private ApplicationUser CreateUser()
-        { 
+        {
             try
             {
                 return Activator.CreateInstance<ApplicationUser>();
@@ -181,6 +230,12 @@ namespace WIL_Project.Areas.Identity.Pages.Account
                     $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the external login page in /Areas/Identity/Pages/Account/ExternalLogin.cshtml");
             }
+        }
+
+        private string GetDomainFromEmail(string email)
+        {
+            var domain = email.Substring(email.LastIndexOf('@') + 1);
+            return domain.ToLower(); // Return domain in lowercase for consistency
         }
 
         private IUserEmailStore<ApplicationUser> GetEmailStore()

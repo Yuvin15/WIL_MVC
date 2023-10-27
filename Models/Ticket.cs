@@ -19,11 +19,11 @@ public partial class Ticket
 
     public string? UserId { get; set; }
 
-    public string? TicketAttatchment1 { get; set; }
+    public byte[]? TicketAttatchment1 { get; set; }
 
-    public string? TicketAttatchment2 { get; set; }
+    public byte[]? TicketAttatchment2 { get; set; }
 
-    public string? TicketAttatchment3 { get; set; }
+    public byte[]? TicketAttatchment3 { get; set; }
 
     public virtual TicketAttachment? TicketAttachments { get; set; }
 

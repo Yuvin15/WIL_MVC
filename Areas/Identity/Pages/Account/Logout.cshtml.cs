@@ -28,6 +28,10 @@ namespace WIL_Project.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+
+            // Logout from Azure AD
+            var azureAdLogoutUrl = "https://login.windows.net/common/oauth2/logout?post_logout_redirect_uri=https://www.google.co.za";
+
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);
@@ -36,8 +40,9 @@ namespace WIL_Project.Areas.Identity.Pages.Account
             {
                 // This needs to be a redirect so that the browser performs a new
                 // request and the identity for the user gets updated.
-                return RedirectToPage();
+                return Redirect(azureAdLogoutUrl); // Redirect to Azure AD logout
             }
         }
+
     }
 }

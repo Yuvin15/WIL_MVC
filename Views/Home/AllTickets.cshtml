@@ -1,143 +1,75 @@
 ﻿@{
     Layout = null;
-    var username = Context.Session.GetString("Username");
-    
-    // Debugging code
-    if (string.IsNullOrEmpty(username))
-    {
-        // Log: Session value for 'Username' is empty or null.
-        // You can use your application's logging mechanism here
-        // For the sake of this example, we'll use Console.WriteLine (though this won't show in Razor view).
-        Console.WriteLine("Session value for 'Username' is empty or null.");
-    }
-    else
-    {
-        // Log: Retrieved session value for 'Username'.
-        Console.WriteLine($"Retrieved session value for 'Username' is: {username}");
-    }
+    // Fetch the display name for the logged-in user
+    var displayName = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value ?? User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
 }
 
-@model List<Ticket>
+
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>All Tickets</title>
     <style>
-        body {
+        html, body {
             font-family: Arial, sans-serif;
+            height: 100%;
+            width: 100%;
             margin: 0;
             padding: 0;
-            height: 100%;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            overflow: hidden;
             background-image: linear-gradient(to right, #434343 0%, black 100%);
         }
 
         .container {
             width: 100%;
-            display: flex;
             overflow: auto;
-            min-height: 100vh;
-            align-items: flex-start;
+            display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            color: #FFFFFF;
         }
 
+
         .text {
-            font-family: Arial, sans-serif;
             color: rgb(255, 255, 255);
             width: 382px;
             height: 98px;
-            align-self: center;
             text-align: center;
             text-transform: capitalize;
         }
 
-        .container1 {
-            flex: 0 0 auto;
-            width: 100%;
+        .header {
             display: flex;
+            width: 100%;
             position: relative;
             align-items: center;
-            border-color: #46c6d2;
-            border-style: dashed;
+            /*border-color: #46c6d2;*/
+            /*border-style: dashed;*/
             border-width: 2px;
-            justify-content: flex-start;
+            justify-content: space-between;
         }
 
-        .container2 {
-            flex: 0 0 auto;
-            width: 200px;
-            height: 100px;
+        .ticketsContainer {
+            max-height: calc(100vh - 200px); /* Adjust as needed */
+            overflow-y: auto;
+            width: 100%;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+
+        .container2, .container3, .container4, .container5 {
             display: flex;
             align-items: center;
-            flex-direction: column;
             justify-content: center;
+            color: #FFFFFF;
+            width: 20%;
         }
 
-        .text4 {
-            font-family: Arial, sans-serif;
-            color: rgb(251, 251, 251);
-        }
 
-        .container3 {
-            top: -1px;
-            flex: 0 0 auto;
-            left: 445px;
-            width: 200px;
-            height: 100px;
-            display: flex;
-            position: absolute;
-            flex-wrap: wrap;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .text5 {
-            font-family: Arial, sans-serif;
-            color: rgb(251, 251, 251);
-        }
-
-        .container4 {
-            top: 0px;
-            flex: 0 0 auto;
-            left: 878px;
-            width: 299px;
-            height: 100px;
-            margin: auto;
-            display: flex;
-            position: absolute;
-            align-items: flex-end;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .text6 {
-            font-family: Arial, sans-serif;
-            color: rgb(251, 251, 251);
-            width: 269px;
-        }
-
-        .container5 {
-            flex: 0 0 auto;
-            right: 30px;
-            width: 200px;
-            bottom: -4px;
-            height: 100px;
-            display: flex;
-            position: absolute;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .text7 {
+        .text4, .text5, .text6, .text7 {
             font-family: Arial, sans-serif;
             color: rgb(251, 251, 251);
         }
@@ -159,30 +91,41 @@
             font-size: 16px;
         }
 
-        .session-textbox {
-            margin-right: 10px;
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+        #ticketModal {
+            display: none;
+            position: fixed;
+            top: 10%;
+            left: 20%;
+            width: 60%;
+            height: 70%;
+            border: 1px solid #000;
+            color: #FFFFFF;
+            padding: 20px;
+            z-index: 9999;
+            overflow: auto;
+            background-image: linear-gradient(to right, #434343 0%, black 100%);
+
+
         }
     </style>
 </head>
+  <div class="logout-container">
+    <!-- Display the user's name or email -->
+    <span style="margin-right: 15px; color: white;">Logged in as: @displayName</span>
+    <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
 <body>
     <div class="container">
-        <!-- Adding the Logout button and session textbox -->
-        <div class="logout-container">
-            <span>Welcome, @username!</span> <!-- Displaying the session variable -->
-            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
-                <button type="submit" class="logout-btn">Logout</button>
-            </form>
-        </div>
-
+       
         <h1 class="text">
             <span>All Tickets</span>
             <br>
             <br>
         </h1>
-        <div class="container1">
+      
+        <div class="header">
             <div class="container2">
                 <h1 class="text4">Ticket Number</h1>
             </div>
@@ -196,6 +139,89 @@
                 <h1 class="text7">Status</h1>
             </div>
         </div>
+        <div class="ticketsContainer">
+            @foreach (var ticket in Model)
+            {
+                <div class="header ticketRow" data-ticketbody="@ticket.TicketBody">
+                    <div class="container2">
+                        <p>@ticket.TicketId</p>
+                    </div>
+                    <div class="container3">
+                        <p>@ticket.TicketSubject</p>
+                    </div>
+                    <div class="container4">
+                        <p>@ticket.TicketCreationDate</p>
+                    </div>
+                    <div class="container5">
+                        <p style="color: @(ticket.TicketStatus == "Open" ? "#2deb5f" : "#e81c1c")">@ticket.TicketStatus</p>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
+    <div id="ticketModal">
+        <h2>Ticket Details</h2>
+        <p><strong>Subject:</strong> <span id="modalSubject"></span></p>
+        <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+        <p><strong>Assigned To:</strong> <span id="modalAssignedTo"></span></p> <!-- Added this line -->
+        <p><strong>Body:</strong></p>
+        <textarea id="modalBody" rows="10" cols="50" readonly></textarea>
+
+        <h2>Reply</h2>
+        <textarea id="replyBody" rows="5" cols="50"></textarea><br><br>
+        <button id="sendReply">Send</button>
+        <button style="float: right;" onclick="closeModal()">Close</button>
+    </div>
+
+    <script>
+        function openModal(ticketSubject, ticketBody) {
+            document.getElementById('ticketModal').style.display = 'block';
+            document.getElementById('modalSubject').textContent = ticketSubject;
+            document.getElementById('modalBody').textContent = ticketBody;
+        }
+
+        function closeModal() {
+            document.getElementById('ticketModal').style.display = 'none';
+        }
+
+        document.getElementById('sendReply').addEventListener('click', function () {
+            var reply = document.getElementById('replyBody').value;
+
+            // Make an AJAX call to send the email
+            fetch('/Home/SendEmailReply', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: 'USER_EMAIL',  // Replace with the email of the user
+                    subject: 'Ticket Reply',
+                    body: reply,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);  // Display a success message
+                    closeModal();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+
+        var ticketRows = document.querySelectorAll('.ticketRow');
+        ticketRows.forEach(function (row, index) {
+            row.addEventListener('click', function () {
+                var ticketSubject = row.querySelector('.container3 p').textContent;
+                var ticketBody = row.getAttribute('data-ticketbody');
+                var userEmail = row.getAttribute('data-useremail');
+                var assignedTo = row.getAttribute('data-assignedto');  // fetch the AssignedTo information
+
+                document.getElementById('modalEmail').textContent = userEmail;
+                document.getElementById('modalAssignedTo').textContent = assignedTo;  // set the AssignedTo information in the modal
+                openModal(ticketSubject, ticketBody);
+            });
+        });
+    </script>
 </body>
 </html>
