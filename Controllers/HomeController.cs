@@ -12,6 +12,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MailKit.Net.Smtp;
 using MimeKit;
+using System.Security.Claims;
 
 namespace WIL_Project.Controllers
 {
@@ -22,6 +23,7 @@ namespace WIL_Project.Controllers
 
         Ticket newTicket = new Ticket();
         TicketAttachment newAttachment = new TicketAttachment();
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -54,7 +56,7 @@ namespace WIL_Project.Controllers
             return View(tickets);
         }
 
-        private List<Ticket> GetTicketsFromDatabase() // Change this to getting stuff from db
+        private List<Ticket> GetTicketsFromDatabase() 
         {
             /*List<Ticket> tickets = new List<Ticket>
             {
@@ -111,6 +113,28 @@ namespace WIL_Project.Controllers
         }*/
         public IActionResult YourTickets()
         {
+            try
+            {
+                // Fetch all users from the database
+                var users = _obraContext.Users.ToList();
+
+                // Check if there are any users
+                if (!users.Any())
+                {
+                    Console.WriteLine("No users found in the database.");
+                    
+                }
+
+                // Display each user's details in the console
+                foreach (var user in users)
+                {
+                    Console.WriteLine($"UserID: {user.UserId}, Email: {user.UserEmail ?? "N/A"}, Full Name: {user.UserFullName ?? "N/A"}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
             return View();
         }
 
@@ -123,6 +147,9 @@ namespace WIL_Project.Controllers
         [HttpPost]
         public IActionResult CreateTicket(List<IFormFile> attachments, string subject, string body)
         {
+
+            string displayName = User.FindFirst(ClaimTypes.Name)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
+
             try
             {
                 var newTicket = new Ticket
@@ -130,7 +157,8 @@ namespace WIL_Project.Controllers
                     TicketSubject = subject,
                     TicketBody = body,
                     TicketCreationDate = DateTime.UtcNow,
-                    TicketStatus = "Open"
+                    TicketStatus = "Open",
+                    UserTicket = displayName
                 };
                 /*_logger.LogInformation(_obraContext.Model.ToDebugString());*/
                 Console.WriteLine(newTicket.TicketCreationDate);
@@ -158,6 +186,11 @@ namespace WIL_Project.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Main Exception: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
                 return View();
             }
         }

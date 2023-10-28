@@ -1,5 +1,7 @@
 ﻿﻿@{
     Layout = null;
+    var displayName = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value ?? User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+
 }
 
 @{
@@ -116,7 +118,31 @@
         margin: 10px;
     }
 
+    /* Added styles for the logout button */
+    .logout-container {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .logout-btn {
+        background-color: #ff4b5c;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
 </style>
+<div class="logout-container">
+    <!-- Display the user's name or email -->
+    <span style="margin-right: 15px; color: white;">Logged in as: @displayName</span>
+    <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
 <div class="container">
     <div class="create-ticket-container">
         <a href="@Url.Action("YourTickets", "Home")">

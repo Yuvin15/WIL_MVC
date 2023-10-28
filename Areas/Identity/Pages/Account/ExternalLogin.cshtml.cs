@@ -75,26 +75,39 @@ namespace WIL_Project.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
+
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
-                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
-            }
-            var info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
-                ErrorMessage = "Error loading external login information.";
+                _logger.LogError("Received error from external provider: {RemoteError}", remoteError);
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+
+            if (info == null)
+            {
+                ErrorMessage = "Error loading external login information.";
+                _logger.LogError("Error loading external login information.");
+                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+            }
+
+            // Log retrieved email from external provider
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            _logger.LogInformation("Retrieved email from external provider: {Email}", email);
+
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 HttpContext.Session.SetString("Username", info.Principal.Identity.Name);
 
                 var user = await this._userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-                var domain = GetDomainFromEmail(info.Principal.FindFirstValue(ClaimTypes.Email));
+                var domain = GetDomainFromEmail(email);
+
+                _logger.LogInformation("Determined domain from email: {Domain}", domain);
+
                 string role;
 
                 if (domain == "vcconnect.edu.za")
@@ -110,9 +123,12 @@ namespace WIL_Project.Areas.Identity.Pages.Account
                     role = "Unknown";
                 }
 
+                _logger.LogInformation("Assigned role based on domain: {Role}", role);
+
                 try
                 {
                     var userClaims = await _userManager.GetClaimsAsync(user);
+
                     if (!userClaims.Any(claim => claim.Type == ClaimTypes.Role && claim.Value == role))
                     {
                         var claimResult = await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, role));
@@ -147,6 +163,7 @@ namespace WIL_Project.Areas.Identity.Pages.Account
 
             if (result.IsLockedOut)
             {
+                _logger.LogWarning("User is locked out.");
                 return RedirectToPage("./Lockout");
             }
             else
@@ -163,6 +180,7 @@ namespace WIL_Project.Areas.Identity.Pages.Account
                 return Page();
             }
         }
+
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {

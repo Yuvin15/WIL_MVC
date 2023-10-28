@@ -148,23 +148,18 @@ public partial class CobraContext : DbContext
 
             entity.Property(e => e.TicketId).HasColumnName("Ticket_ID");
             entity.Property(e => e.TicketAttachmentsId).HasColumnName("Ticket_AttachmentsID");
-            entity.Property(e => e.TicketAttatchment1)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("ticket_attatchment1");
+            entity.Property(e => e.TicketAttatchment1).HasColumnName("ticket_attatchment1");
             entity.Property(e => e.TicketAttatchment2)
-                .HasMaxLength(255)
-                .IsUnicode(false)
+                .HasColumnType("image")
                 .HasColumnName("ticket_attatchment2");
             entity.Property(e => e.TicketAttatchment3)
-                .HasMaxLength(255)
-                .IsUnicode(false)
+                .HasColumnType("image")
                 .HasColumnName("ticket_attatchment3");
             entity.Property(e => e.TicketBody)
                 .HasColumnType("text")
                 .HasColumnName("Ticket_Body");
             entity.Property(e => e.TicketCreationDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Ticket_CreationDate");
             entity.Property(e => e.TicketStatus)
                 .HasMaxLength(50)
@@ -178,6 +173,10 @@ public partial class CobraContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("UserID");
+            entity.Property(e => e.UserTicket)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("user_ticket");
 
             entity.HasOne(d => d.TicketAttachments).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.TicketAttachmentsId)

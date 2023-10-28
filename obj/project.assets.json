@@ -12116,11 +12116,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lab_services_student\\Documents\\test\\WIL_MVC\\WIL Project.csproj",
+      "projectUniqueName": "C:\\Users\\lab_services_student\\Desktop\\WIL_Everything\\WIL_MVC\\WIL Project.csproj",
       "projectName": "WIL Project",
-      "projectPath": "C:\\Users\\lab_services_student\\Documents\\test\\WIL_MVC\\WIL Project.csproj",
+      "projectPath": "C:\\Users\\lab_services_student\\Desktop\\WIL_Everything\\WIL_MVC\\WIL Project.csproj",
       "packagesPath": "C:\\Users\\lab_services_student\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lab_services_student\\Documents\\test\\WIL_MVC\\obj\\",
+      "outputPath": "C:\\Users\\lab_services_student\\Desktop\\WIL_Everything\\WIL_MVC\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lab_services_student\\AppData\\Roaming\\NuGet\\NuGet.Config",

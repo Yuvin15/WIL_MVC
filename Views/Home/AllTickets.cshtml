@@ -142,7 +142,9 @@
         <div class="ticketsContainer">
             @foreach (var ticket in Model)
             {
-                <div class="header ticketRow" data-ticketbody="@ticket.TicketBody">
+                <div class="header ticketRow"
+                 data-ticketbody="@ticket.TicketBody"
+                 data-useremail="@ticket.User?.Email ?? " Not available"">
                     <div class="container2">
                         <p>@ticket.TicketId</p>
                     </div>
@@ -159,6 +161,7 @@
             }
         </div>
     </div>
+
     <div id="ticketModal">
         <h2>Ticket Details</h2>
         <p><strong>Subject:</strong> <span id="modalSubject"></span></p>
@@ -215,10 +218,8 @@
                 var ticketSubject = row.querySelector('.container3 p').textContent;
                 var ticketBody = row.getAttribute('data-ticketbody');
                 var userEmail = row.getAttribute('data-useremail');
-                var assignedTo = row.getAttribute('data-assignedto');  // fetch the AssignedTo information
 
                 document.getElementById('modalEmail').textContent = userEmail;
-                document.getElementById('modalAssignedTo').textContent = assignedTo;  // set the AssignedTo information in the modal
                 openModal(ticketSubject, ticketBody);
             });
         });

@@ -25,6 +25,8 @@ public partial class Ticket
 
     public byte[]? TicketAttatchment3 { get; set; }
 
+    public string? UserTicket { get; set; }
+
     public virtual TicketAttachment? TicketAttachments { get; set; }
 
     public virtual ICollection<TicketResponse> TicketResponses { get; set; } = new List<TicketResponse>();
