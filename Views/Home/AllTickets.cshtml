@@ -144,7 +144,8 @@
             {
                 <div class="header ticketRow"
                  data-ticketbody="@ticket.TicketBody"
-                 data-useremail="@ticket.User?.Email ?? " Not available"">
+                 data-useremail="@ticket.UserTicket">
+                    <!-- Here's the change -->
                     <div class="container2">
                         <p>@ticket.TicketId</p>
                     </div>
@@ -159,6 +160,7 @@
                     </div>
                 </div>
             }
+
         </div>
     </div>
 
@@ -219,7 +221,7 @@
                 var ticketBody = row.getAttribute('data-ticketbody');
                 var userEmail = row.getAttribute('data-useremail');
 
-                document.getElementById('modalEmail').textContent = userEmail;
+                document.getElementById('modalEmail').textContent = userEmail; // This sets the email in the modal
                 openModal(ticketSubject, ticketBody);
             });
         });

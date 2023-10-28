@@ -50,9 +50,9 @@ namespace WIL_Project.Controllers
 
         public IActionResult AllTickets()
         {
-            SeedTickets();
-
-            List<Ticket> tickets = GetTicketsFromDatabase();
+            /*SeedTickets();*/
+            /*List<Ticket> tickets = GetTicketsFromDatabase();*/
+            List<Ticket> tickets = _obraContext.Tickets.ToList();
             return View(tickets);
         }
 
@@ -79,7 +79,7 @@ namespace WIL_Project.Controllers
                 new Ticket { TicketId = 17, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" }
             };*/
             return _obraContext.Tickets
-                      .Include(t => t.User)
+                      .Include(t => t.UserTicket)
                       .Include(t => t.TicketAttachments)
                       .Include(t => t.TicketResponses)
                       .ToList();
@@ -116,7 +116,7 @@ namespace WIL_Project.Controllers
             try
             {
                 // Fetch all users from the database
-                var users = _obraContext.Users.ToList();
+                var users = _obraContext.Tickets.ToList();
 
                 // Check if there are any users
                 if (!users.Any())
@@ -128,7 +128,7 @@ namespace WIL_Project.Controllers
                 // Display each user's details in the console
                 foreach (var user in users)
                 {
-                    Console.WriteLine($"UserID: {user.UserId}, Email: {user.UserEmail ?? "N/A"}, Full Name: {user.UserFullName ?? "N/A"}");
+                    Console.WriteLine($"UserID: {user.UserTicket}, Email: {user.TicketId}, Full Name: {user.TicketStatus ?? "N/A"}");
                 }
             }
             catch (Exception ex)
