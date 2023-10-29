@@ -23,7 +23,7 @@ namespace WIL_Project.Controllers
 
         Ticket newTicket = new Ticket();
         TicketAttachment newAttachment = new TicketAttachment();
-
+        TicketResponse newResponse = new TicketResponse();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -85,35 +85,75 @@ namespace WIL_Project.Controllers
                       .ToList();
         }
 
-        /*private static void SendResponse(string toEmail, string subject, string body)
+        private static void SendResponse(string toEmail, string subject, string body, string displayName)
         {
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Your Name", "your-email@gmail.com"));
-            message.To.Add(new MailboxAddress("", toEmail));
-            message.Subject = subject;
-            message.Body = new TextPart("plain")
+            
+            using (var message = new MimeMessage())
             {
-                Text = body
-            };
 
-            using (var client = new MailKit.Net.Smtp.SmtpClient())
-            {
-                client.Connect("smtp.gmail.com", 587, false);
-                client.Authenticate("your-email@gmail.com", "your-password");
+                message.From.Add(new MailboxAddress("Staff", displayName));
+                message.To.Add(new MailboxAddress(toEmail, toEmail));
+                message.Subject = subject;
+                message.Body = new TextPart("plain")
+                {
+                    Text = body
+                };
 
-                client.Send(message);
-                client.Disconnect(true);
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                    client.Authenticate(displayName, "hggv lrox zewq lyot");
+
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
             }
         }
         [HttpPost]
-        public IActionResult SendEmailReply([FromBody] EmailRequest request)
+        public IActionResult SendEmailReply([FromBody] EmailReplyModel request, int ticketId)
         {
-            SendResponse(request.Email, request.Subject, request.Body);
-            return Ok(new { Message = "Email sent!" });
-        }*/
+            try
+            {
+                string displayName = User.FindFirst(ClaimTypes.Name)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
+                
+                SendResponse(request.Email, request.Subject, request.Body, displayName);
+
+                var newResponse = new TicketResponse
+                {
+                    ResponseSubject = request.Subject,
+                    ResponseBody = request.Body,
+                    TicketId = ticketId
+                };
+                _obraContext.TicketResponses.Add(newResponse);
+                _obraContext.SaveChanges();
+                return Ok(new { Message = "Email sent!" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = $"Error: {ex.Message}" });
+            }
+        }
+        
+
         public IActionResult YourTickets()
         {
             try
+            {
+                string displayName = User.FindFirst(ClaimTypes.Name)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
+                List<Ticket> yourTickets = _obraContext.Tickets
+                                               .Where(t => t.UserTicket == displayName)
+                                               .ToList();
+
+                return View(yourTickets);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return View();
+            }
+
+            /*try
             {
                 // Fetch all users from the database
                 var users = _obraContext.Tickets.ToList();
@@ -134,8 +174,7 @@ namespace WIL_Project.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
-            }
-            return View();
+            }*/
         }
 
         [HttpGet]
@@ -147,7 +186,6 @@ namespace WIL_Project.Controllers
         [HttpPost]
         public IActionResult CreateTicket(List<IFormFile> attachments, string subject, string body)
         {
-
             string displayName = User.FindFirst(ClaimTypes.Name)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
 
             try

@@ -114,7 +114,7 @@ namespace WIL_Project.Areas.Identity.Pages.Account
                 {
                     role = "Student";
                 }
-                else if (domain == "jadwat.co.za")
+                else if (domain == "gmail.com")
                 {
                     role = "Staff";
                 }

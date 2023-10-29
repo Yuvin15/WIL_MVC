@@ -109,22 +109,19 @@
         }
     </style>
 </head>
-  <div class="logout-container">
-    <!-- Display the user's name or email -->
-    <span style="margin-right: 15px; color: white;">Logged in as: @displayName</span>
-    <form asp-area="Identity" asp-page="/Account/Logout" method="post">
-        <button type="submit" class="logout-btn">Logout</button>
-    </form>
-</div>
 <body>
+    <div class="logout-container">
+        <span style="margin-right: 15px; color: white;">Logged in as: @displayName</span>
+        <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
     <div class="container">
-       
         <h1 class="text">
             <span>All Tickets</span>
             <br>
             <br>
         </h1>
-      
         <div class="header">
             <div class="container2">
                 <h1 class="text4">Ticket Number</h1>
@@ -144,8 +141,8 @@
             {
                 <div class="header ticketRow"
                  data-ticketbody="@ticket.TicketBody"
-                 data-useremail="@ticket.UserTicket">
-                    <!-- Here's the change -->
+                 data-useremail="@ticket.UserTicket"
+                 data-ticketid="@ticket.TicketId">
                     <div class="container2">
                         <p>@ticket.TicketId</p>
                     </div>
@@ -160,18 +157,14 @@
                     </div>
                 </div>
             }
-
         </div>
     </div>
-
     <div id="ticketModal">
         <h2>Ticket Details</h2>
         <p><strong>Subject:</strong> <span id="modalSubject"></span></p>
         <p><strong>Email:</strong> <span id="modalEmail"></span></p>
-        <p><strong>Assigned To:</strong> <span id="modalAssignedTo"></span></p> <!-- Added this line -->
         <p><strong>Body:</strong></p>
         <textarea id="modalBody" rows="10" cols="50" readonly></textarea>
-
         <h2>Reply</h2>
         <textarea id="replyBody" rows="5" cols="50"></textarea><br><br>
         <button id="sendReply">Send</button>
@@ -191,22 +184,23 @@
 
         document.getElementById('sendReply').addEventListener('click', function () {
             var reply = document.getElementById('replyBody').value;
+            var userEmail = document.getElementById('modalEmail').textContent;
+            var ticketId = document.getElementById('modalSubject').getAttribute('data-ticketid');
 
-            // Make an AJAX call to send the email
             fetch('/Home/SendEmailReply', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: 'USER_EMAIL',  // Replace with the email of the user
-                    subject: 'Ticket Reply',
+                    email: userEmail,
+                    subject: 'Ticket Reply for Ticket ' + ticketId,
                     body: reply,
                 }),
             })
                 .then(response => response.json())
                 .then(data => {
-                    alert(data.message);  // Display a success message
+                    alert(data.message);
                     closeModal();
                 })
                 .catch((error) => {
@@ -220,8 +214,13 @@
                 var ticketSubject = row.querySelector('.container3 p').textContent;
                 var ticketBody = row.getAttribute('data-ticketbody');
                 var userEmail = row.getAttribute('data-useremail');
+                var ticketId = row.getAttribute('data-ticketid');
 
-                document.getElementById('modalEmail').textContent = userEmail; // This sets the email in the modal
+                document.getElementById('modalEmail').textContent = userEmail;
+                var modalSubjectElement = document.getElementById('modalSubject');
+                modalSubjectElement.textContent = ticketSubject;
+                modalSubjectElement.setAttribute('data-ticketid', ticketId);
+                document.getElementById('modalBody').textContent = ticketBody;
                 openModal(ticketSubject, ticketBody);
             });
         });
