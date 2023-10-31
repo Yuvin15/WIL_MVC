@@ -86,10 +86,6 @@
             background-color: #0a75c2;
         }
 
-        .button span {
-            text-align: center;
-        }
-
     .create-ticket-container {
         width: 100%;
         display: flex;
@@ -118,7 +114,6 @@
         margin: 10px;
     }
 
-    /* Added styles for the logout button */
     .logout-container {
         position: absolute;
         top: 10px;
@@ -146,7 +141,6 @@
         z-index: 9999;
     }
 
-    /* Modal Content */
     .modal-content {
         position: absolute;
         top: 50%;
@@ -160,7 +154,6 @@
         z-index: 10000;
     }
 
-    /* Close Button */
     .modal-close {
         color: #aaa;
         float: right;
@@ -172,6 +165,16 @@
             color: #000;
         }
 
+    .success-modal-content {
+        background-color: #4CAF50;
+        color: white;
+        border-color: #388E3C;
+    }
+
+        .success-modal-content p {
+            margin: 0;
+            padding: 0;
+        }
 
 </style>
 <div class="logout-container">
@@ -181,13 +184,15 @@
         <button type="submit" class="logout-btn">Logout</button>
     </form>
 </div>
+
 <div class="container">
     <div class="create-ticket-container">
         <a href="@Url.Action("YourTickets", "Home")">
             <button class="create-ticket-btn">Go back to see your tickets</button>
         </a>
     </div>
-    <form asp-action="CreateTicket" asp-controller="Home" method="post" enctype="multipart/form-data">
+
+    <form id="ticketForm" asp-action="CreateTicket" asp-controller="Home" method="post" enctype="multipart/form-data">
         <label for="subject" class="label">Ticket Subject:</label>
         <input type="text" id="subject" name="subject" class="input" required>
 
@@ -206,33 +211,50 @@
             </div>
         </div>
 
-        <input type="submit" value="Submit Ticket" class="button">
+        <input id="submitTicketBtn" type="submit" value="Submit Ticket" class="button">
     </form>
 </div>
 
+<!-- Success Modal -->
+<div id="successModal" class="modal-overlay">
+    <div class="modal-content success-modal-content">
+        <span class="modal-close">&times;</span>
+        <p>Your ticket has been successfully submitted!</p>
+    </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var modal = document.getElementById('customModal');
-        var closeBtn = document.querySelector('.modal-close');
+        var successModal = document.getElementById('successModal');
+        var closeBtn = document.querySelectorAll('.modal-close');
+        var ticketForm = document.getElementById('ticketForm');
+        var submitTicketBtn = document.getElementById('submitTicketBtn');
 
-        function openModal() {
-            modal.style.display = 'block';
+        function openSuccessModal() {
+            successModal.style.display = 'block';
         }
 
-        function closeModal() {
-            modal.style.display = 'none';
+        function closeSuccessModal() {
+            successModal.style.display = 'none';
         }
 
-        closeBtn.addEventListener('click', closeModal);
+        closeBtn.forEach(btn => {
+            btn.addEventListener('click', function () {
+                closeSuccessModal();
+                ticketForm.submit(); // Actual form submission after modal closure
+            });
+        });
 
         window.addEventListener('click', function (event) {
-            if (event.target === modal) {
-                closeModal();
+            if (event.target === successModal) {
+                closeSuccessModal();
+                ticketForm.submit(); // Actual form submission when clicked outside modal
             }
         });
 
-        window.openModal = openModal;
-
+        submitTicketBtn.addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent default form submission
+            openSuccessModal();
+        });
 
     document.getElementById('attachments').addEventListener('change', function (event) {
         var files = event.target.files;
@@ -249,5 +271,26 @@
                 reader.readAsDataURL(file);
             }
         }
+        }); 
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        openSuccessModal();
+                    } else {
+                        console.error("Error submitting the ticket");
+                    }
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        });
     });
 </script>

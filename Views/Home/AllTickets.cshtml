@@ -155,7 +155,6 @@
                 background-color: #555;
             }
 
-
     </style>
 </head>
 <body>
@@ -264,7 +263,7 @@
             })
                 .then(response => response.json())  // Parse the returned JSON
                 .then(data => {
-                    document.getElementById('popupMessage').textContent = data.Message;
+                    document.getElementById('popupMessage').textContent = "Sent successfully";
                     document.getElementById('customPopup').style.display = 'block';
                 })
                 .catch((error) => {
@@ -296,13 +295,13 @@
         });
 
         document.querySelectorAll('.preset-reply').forEach(button => {
-    button.addEventListener('click', function() {
-        var presetText = this.getAttribute('data-text');
-        var replyTextarea = document.getElementById('replyBody');
-        // Append the preset text to the current content of the textarea
-        replyTextarea.value += presetText;
-    });
-});
+            button.addEventListener('click', function () {
+                var presetText = this.getAttribute('data-text');
+                var replyTextarea = document.getElementById('replyBody');
+                // Append the preset text to the current content of the textarea
+                replyTextarea.value += presetText;
+            });
+        });
     </script>
 </body>
 </html>

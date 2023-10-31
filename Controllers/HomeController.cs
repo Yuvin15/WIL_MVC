@@ -52,8 +52,7 @@ namespace WIL_Project.Controllers
         [Authorize(Roles = "Staff")]
         public IActionResult AllTickets()
         {
-            /*SeedTickets();*/
-            /*List<Ticket> tickets = GetTicketsFromDatabase();*/
+
             List<Ticket> tickets = _obraContext.Tickets.ToList();
             return View(tickets);
         }
