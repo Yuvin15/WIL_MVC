@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using MailKit.Net.Smtp;
 using MimeKit;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace WIL_Project.Controllers
 {
@@ -47,7 +49,7 @@ namespace WIL_Project.Controllers
                 _obraContext.SaveChanges();
             }
         }
-
+        [Authorize(Roles = "Staff")]
         public IActionResult AllTickets()
         {
             /*SeedTickets();*/
@@ -56,41 +58,11 @@ namespace WIL_Project.Controllers
             return View(tickets);
         }
 
-        private List<Ticket> GetTicketsFromDatabase() 
-        {
-            /*List<Ticket> tickets = new List<Ticket>
-            {
-                new Ticket { TicketId = 1, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                new Ticket { TicketId = 2, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
-                new Ticket { TicketId = 3, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                new Ticket { TicketId = 4, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
-                new Ticket { TicketId = 5, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                new Ticket { TicketId = 6, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
-                new Ticket { TicketId = 7, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                new Ticket { TicketId = 8, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
-                new Ticket { TicketId = 9, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                new Ticket { TicketId = 10, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
-                new Ticket { TicketId = 11, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                new Ticket { TicketId = 12, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
-                new Ticket { TicketId = 13, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                new Ticket { TicketId = 14, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
-                new Ticket { TicketId = 15, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" },
-                new Ticket { TicketId = 16, TicketSubject = "Sample Subject 1", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                new Ticket { TicketId = 17, TicketSubject = "Sample Subject 2", TicketCreationDate = DateTime.Now, TicketStatus = "Closed" }
-            };*/
-            return _obraContext.Tickets
-                      .Include(t => t.UserTicket)
-                      .Include(t => t.TicketAttachments)
-                      .Include(t => t.TicketResponses)
-                      .ToList();
-        }
-
         private static void SendResponse(string toEmail, string subject, string body, string displayName)
         {
-            
+            Console.WriteLine($"{toEmail} {displayName}");
             using (var message = new MimeMessage())
             {
-
                 message.From.Add(new MailboxAddress("Staff", displayName));
                 message.To.Add(new MailboxAddress(toEmail, toEmail));
                 message.Subject = subject;
@@ -102,7 +74,7 @@ namespace WIL_Project.Controllers
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                    client.Authenticate(displayName, "hggv lrox zewq lyot");
+                    client.Authenticate(displayName, "hggv lrox zewq lyot"); // Change this to the password of the gmail account
 
                     client.Send(message);
                     client.Disconnect(true);
@@ -110,13 +82,23 @@ namespace WIL_Project.Controllers
             }
         }
         [HttpPost]
-        public IActionResult SendEmailReply([FromBody] EmailReplyModel request, int ticketId)
+        public IActionResult SendEmailReply([FromBody] EmailReplyModel request)
         {
+            int ticketId = request.TicketId;
             try
             {
                 string displayName = User.FindFirst(ClaimTypes.Name)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
-                
+
                 SendResponse(request.Email, request.Subject, request.Body, displayName);
+                Console.WriteLine("Ticket ID:", ticketId);
+                var ticket = _obraContext.Tickets.FirstOrDefault(t => t.TicketId == ticketId);
+                if (ticket == null)
+                {
+                    return NotFound(new { Message = $"Ticket with ID {ticketId} not found." });
+                }
+
+                // Set the ticket status to closed
+                ticket.TicketStatus = "Closed";
 
                 var newResponse = new TicketResponse
                 {
@@ -126,20 +108,31 @@ namespace WIL_Project.Controllers
                 };
                 _obraContext.TicketResponses.Add(newResponse);
                 _obraContext.SaveChanges();
+
                 return Ok(new { Message = "Email sent!" });
+            }
+            catch (MailKit.Net.Smtp.SmtpCommandException ex)
+            {
+                return BadRequest(new { Message = $"SMTP Error: {ex.Message}", StatusCode = ex.StatusCode, Response = ex.Source });
+            }
+            catch (MailKit.Net.Smtp.SmtpProtocolException ex)
+            {
+                return BadRequest(new { Message = $"SMTP Protocol Error: {ex.Message}" });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Message = $"Error: {ex.Message}" });
+                return BadRequest(new { Message = $"General Error: {ex.Message}" });
             }
         }
-        
 
+
+        [Authorize(Roles = "Student")]
         public IActionResult YourTickets()
         {
             try
             {
                 string displayName = User.FindFirst(ClaimTypes.Name)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
+
                 List<Ticket> yourTickets = _obraContext.Tickets
                                                .Where(t => t.UserTicket == displayName)
                                                .ToList();
@@ -178,6 +171,7 @@ namespace WIL_Project.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Student")]
         public IActionResult CreateTicket()
         {
             return View();
@@ -198,8 +192,9 @@ namespace WIL_Project.Controllers
                     TicketStatus = "Open",
                     UserTicket = displayName
                 };
+
                 /*_logger.LogInformation(_obraContext.Model.ToDebugString());*/
-                Console.WriteLine(newTicket.TicketCreationDate);
+                
                 _obraContext.Tickets.Add(newTicket);
                 _obraContext.SaveChanges();
 
@@ -258,6 +253,8 @@ namespace WIL_Project.Controllers
             }
             return NotFound();
         }
+
+        public IActionResult AccessDenied() { return View(); }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
