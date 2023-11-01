@@ -17,6 +17,18 @@ public partial class CobraContext : DbContext
 
     public virtual DbSet<Admin> Admins { get; set; }
 
+    public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+
+    public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
+
+    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+
+    public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+
+    public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+
+    public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+
     public virtual DbSet<SupportTeamMember> SupportTeamMembers { get; set; }
 
     public virtual DbSet<Ticket> Tickets { get; set; }
@@ -53,6 +65,61 @@ public partial class CobraContext : DbContext
                 .HasColumnName("Admin_Name");
         });
 
+        modelBuilder.Entity<AspNetRole>(entity =>
+        {
+            entity.Property(e => e.Name).HasMaxLength(256);
+            entity.Property(e => e.NormalizedName).HasMaxLength(256);
+        });
+
+        modelBuilder.Entity<AspNetRoleClaim>(entity =>
+        {
+            entity.Property(e => e.RoleId).HasMaxLength(450);
+
+            entity.HasOne(d => d.Role).WithMany(p => p.AspNetRoleClaims).HasForeignKey(d => d.RoleId);
+        });
+
+        modelBuilder.Entity<AspNetUser>(entity =>
+        {
+            entity.Property(e => e.Email).HasMaxLength(256);
+            entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+            entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+            entity.Property(e => e.UserName).HasMaxLength(256);
+
+            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AspNetUserRole",
+                    r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+                    l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "RoleId");
+                        j.ToTable("AspNetUserRoles");
+                    });
+        });
+
+        modelBuilder.Entity<AspNetUserClaim>(entity =>
+        {
+            entity.Property(e => e.UserId).HasMaxLength(450);
+
+            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserClaims).HasForeignKey(d => d.UserId);
+        });
+
+        modelBuilder.Entity<AspNetUserLogin>(entity =>
+        {
+            entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+
+            entity.Property(e => e.UserId).HasMaxLength(450);
+
+            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserLogins).HasForeignKey(d => d.UserId);
+        });
+
+        modelBuilder.Entity<AspNetUserToken>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserTokens).HasForeignKey(d => d.UserId);
+        });
+
         modelBuilder.Entity<SupportTeamMember>(entity =>
         {
             entity.HasKey(e => e.SupportMemberId).HasName("PK__SupportT__62477E4357723557");
@@ -81,11 +148,18 @@ public partial class CobraContext : DbContext
 
             entity.Property(e => e.TicketId).HasColumnName("Ticket_ID");
             entity.Property(e => e.TicketAttachmentsId).HasColumnName("Ticket_AttachmentsID");
+            entity.Property(e => e.TicketAttatchment1).HasColumnName("ticket_attatchment1");
+            entity.Property(e => e.TicketAttatchment2)
+                .HasColumnType("image")
+                .HasColumnName("ticket_attatchment2");
+            entity.Property(e => e.TicketAttatchment3)
+                .HasColumnType("image")
+                .HasColumnName("ticket_attatchment3");
             entity.Property(e => e.TicketBody)
                 .HasColumnType("text")
                 .HasColumnName("Ticket_Body");
             entity.Property(e => e.TicketCreationDate)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("Ticket_CreationDate");
             entity.Property(e => e.TicketStatus)
                 .HasMaxLength(50)
@@ -99,6 +173,10 @@ public partial class CobraContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("UserID");
+            entity.Property(e => e.UserTicket)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("user_ticket");
 
             entity.HasOne(d => d.TicketAttachments).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.TicketAttachmentsId)

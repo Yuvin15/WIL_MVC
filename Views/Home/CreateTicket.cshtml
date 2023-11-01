@@ -1,5 +1,25 @@
-﻿@{
+﻿﻿@{
     Layout = null;
+    var displayName = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value ?? User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+
+}
+
+@{
+    ViewData["Title"] = "Create a New Ticket";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
 }
 
 <style>
@@ -11,199 +31,267 @@
         height: 100%;
     }
 
-    .home-container {
-        font-family: Arial, sans-serif;
+    .container {
         width: 100%;
         display: flex;
         overflow: auto;
         min-height: 100vh;
         align-items: center;
         flex-direction: column;
-    }
-
-    .home-desktop1 {
-        font-family: Arial, sans-serif;
-        width: 100%;
-        height: 1024px;
-        display: flex;
-        overflow: hidden;
-        position: relative;
-        align-items: center;
-        flex-shrink: 0;
-        justify-content: center;
         background-image: linear-gradient(to right, #434343 0%, black 100%);
+        padding: 40px;
     }
 
-    .home-ticket-form {
-        gap: 22px;
-        top: 170px;
-        left: 297px;
-        width: 853px;
+    .title {
+        color: #ffffff;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .label {
+        color: #ffffff;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .input {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .input-large {
+        height: 240px;
+    }
+
+    .button {
         display: flex;
-        padding: 42px 129px;
-        overflow: hidden;
-        position: absolute;
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .home-text {
-        font-family: Arial, sans-serif;
-        color: #ffffff;
-        width: 335px;
-        height: auto;
-        text-align: left;
-        line-height: normal;
-    }
-
-    .home-text02 {
-        font-family: Arial, sans-serif;
-        color: #ffffff;
-        height: auto;
-        text-align: left;
-        line-height: normal;
-    }
-
-    .home-details {
-        width: 527px;
-        height: 635px;
-        display: flex;
-        overflow: hidden;
-        position: relative;
-        align-items: flex-start;
-        flex-shrink: 0;
-    }
-
-    .home-text04 {
-        font-family: Arial, sans-serif;
-        top: 11px;
-        color: #ffffff;
-        height: auto;
-        position: absolute;
-        font-size: 14px;
-        text-align: left;
-        font-weight: 300;
-        line-height: normal;
-        font-stretch: normal;
-        text-decoration: none;
-    }
-
-    .home-text06 {
-        font-family: Arial, sans-serif;
-        top: 118px;
-        color: #ffffff;
-        height: auto;
-        position: absolute;
-        font-size: 14px;
-        text-align: left;
-        font-weight: 300;
-        line-height: normal;
-        font-stretch: normal;
-        text-decoration: none;
-    }
-
-    .home-text08 {
-        font-family: Arial, sans-serif;
-        top: 333px;
-        left: 7px;
-        color: #fdfdfd;
-        height: auto;
-        position: absolute;
-        font-size: 14px;
-        text-align: left;
-        font-weight: 300;
-        line-height: normal;
-        font-stretch: normal;
-        text-decoration: none;
-    }
-
-    .home-button {
-        gap: 10px;
-        right: 17px;
-        width: 80px;
-        bottom: 22px;
-        display: flex;
-        padding: 8px 16px;
-        position: absolute;
         align-items: center;
-        border-radius: 6px;
         justify-content: center;
-        background-color: rgba(0, 150, 183, 1);
+        width: 240px;
+        height: 58px;
+        background-color: rgb(13, 117, 232);
+        color: #ffffff;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
     }
 
-    .home-text10 {
-        font-family: Arial, sans-serif;
-        color: rgba(255, 255, 255, 1);
-        height: auto;
-        text-align: left;
-        line-height: 24px;
-    }
+        .button:hover {
+            background-color: #0a75c2;
+        }
 
-    .home-textarea {
-        font-family: Arial, sans-serif;
-        top: 180px;
-        left: 128px;
-        width: 274px;
-        position: absolute;
-    }
-
-    .home-textarea1 {
-        font-family: Arial, sans-serif;
-        top: 265px;
-        left: 127px;
-        width: 281px;
-        height: 160px;
-        position: absolute;
-        margin-top: 13px;
-    }
-
-    .home-button1 {
-        font-family: Arial, sans-serif;
-        gap: 10px;
-        top: 661px;
-        left: 432px;
-        width: 150px;
+    .create-ticket-container {
+        width: 100%;
         display: flex;
-        padding: 8px 16px;
-        position: absolute;
-        align-items: center;
-        border-radius: 6px;
-        justify-content: center;
-        background-color: rgba(0, 150, 183, 1);
+        justify-content: flex-start;
+        padding: 10px;
     }
 
-    .home-text12 {
+    .create-ticket-btn {
+        background-color: black;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
         font-family: Arial, sans-serif;
-        color: rgb(255, 255, 255);
-        height: auto;
-        text-align: left;
-        line-height: 24px;
+        transition: background-color 0.3s;
     }
+
+        .create-ticket-btn:hover {
+            background-color: #349b9d;
+        }
+
+    #attachment-previews img {
+        max-width: 150px;
+        max-height: 150px;
+        margin: 10px;
+    }
+
+    .logout-container {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .logout-btn {
+        background-color: #ff4b5c;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 9999;
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fefefe;
+        padding: 20px;
+        width: 300px;
+        border: 1px solid #888;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 10000;
+    }
+
+    .modal-close {
+        color: #aaa;
+        float: right;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .modal-close:hover {
+        color: #000;
+    }
+
+    .success-modal-content {
+        font-size:medium;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 24px;
+        border-color: #388E3C;
+    }
+
+    .success-modal-content p {
+            margin: 0;
+            border-radius: 24px;
+        padding: 0;
+    }
+
 </style>
-
-<div class="home-container">
-    <div class="home-desktop1">
-        <div class="home-ticket-form">
-            <span class="home-text MainHeading">
-                <span>Please Fill in the form below</span>
-            </span>
-            <span class="home-text02 subheading"><span>Ticket Details</span></span>
-            <div class="home-details">
-                <span class="home-text04"><span>Enter the subject</span></span>
-                <span class="home-text06">
-                    <span>Enter the description (50 characters maximum)</span>
-                </span>
-                <span class="home-text08"><span>Upload an attachment</span></span>
-                <button class="home-button">
-                    <span class="home-text10 bodyMedium"><span>Submit</span></span>
-                </button>
-            </div>
-            <textarea placeholder="Enter Subject" class="home-textarea textarea"></textarea>
-            <textarea placeholder="Enter your Description" class="home-textarea1 textarea"></textarea>
-        </div>
-        <button class="home-button1">
-            <span class="home-text12">Choose files</span>
-        </button>
-    </div>
+<div class="logout-container">
+    <span style="margin-right: 15px; color: white;">Logged in as: @displayName</span>
+    <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
 </div>
 
+<div class="container">
+    <div class="create-ticket-container">
+        <a href="@Url.Action("YourTickets", "Home")">
+            <button class="create-ticket-btn">Go back to see your tickets</button>
+        </a>
+    </div>
+
+    <form id="ticketForm" asp-action="CreateTicket" asp-controller="Home" method="post" enctype="multipart/form-data">
+        <label for="subject" class="label">Ticket Subject:</label>
+        <input type="text" id="subject" name="subject" class="input" required>
+
+        <label for="body" class="label">Ticket Body:</label>
+        <textarea id="body" name="body" class="textarea input input-large" required></textarea>
+
+        <div class="attachment-container">
+            <label for="attachments" class="label">Add Attachments:</label>
+            <input type="file" id="attachments" name="attachments" class="file-input" multiple>
+            <p class="label">Note: You can select multiple files at once.</p>
+
+            <div id="attachment-previews">
+                <img id="preview1" src="#" alt="Preview 1" style="display:none;" />
+                <img id="preview2" src="#" alt="Preview 2" style="display:none;" />
+                <img id="preview3" src="#" alt="Preview 3" style="display:none;" />
+            </div>
+        </div>
+
+        <input id="submitTicketBtn" type="submit" value="Submit Ticket" class="button">
+    </form>
+</div>
+
+<div id="successModal" class="modal-overlay">
+    <div class="modal-content success-modal-content">
+        <span class="modal-close">&times;</span>
+        <p>Your ticket has been successfully submitted! It will be dealt with within 24-48 hours</p>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var successModal = document.getElementById('successModal');
+        var closeBtn = document.querySelectorAll('.modal-close');
+        var ticketForm = document.getElementById('ticketForm');
+        var submitTicketBtn = document.getElementById('submitTicketBtn');
+
+        function openSuccessModal() {
+            successModal.style.display = 'block';
+        }
+
+        function closeSuccessModal() {
+            successModal.style.display = 'none';
+        }
+
+        closeBtn.forEach(btn => {
+            btn.addEventListener('click', function () {
+                closeSuccessModal();
+                ticketForm.submit(); 
+            });
+        });
+
+        window.addEventListener('click', function (event) {
+            if (event.target === successModal) {
+                closeSuccessModal();
+                ticketForm.submit(); 
+            }
+        });
+
+        submitTicketBtn.addEventListener('click', function (e) {
+            e.preventDefault(); 
+            openSuccessModal();
+        });
+
+    document.getElementById('attachments').addEventListener('change', function (event) {
+        var files = event.target.files;
+        for (var i = 0; i < files.length && i < 3; i++) {
+            var file = files[i];
+            if (file && file.type.startsWith('image/')) { 
+                var reader = new FileReader();
+                reader.onload = (function (imgTag) {
+                    return function (e) {
+                        imgTag.src = e.target.result;
+                        imgTag.style.display = 'block';
+                    };
+                })(document.getElementById('preview' + (i + 1)));
+                reader.readAsDataURL(file);
+            }
+        }
+        }); 
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        openSuccessModal();
+                    } else {
+                        console.error("Error submitting the ticket");
+                    }
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        });
+    });
+</script>

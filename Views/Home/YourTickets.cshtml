@@ -1,5 +1,8 @@
-﻿@{
-    Layout = null; 
+﻿@model List<Ticket>
+
+@{
+    Layout = null;
+    var displayName = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value ?? User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
 }
 
 <!DOCTYPE html>
@@ -7,7 +10,7 @@
 <head>
     <title>Student Tickets</title>
     <style>
-        
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -43,25 +46,20 @@
         }
 
         .container1 {
-            flex: 0 0 auto;
-            width: 99.6%;
             display: flex;
-            position: relative;
+            flex-direction: row;
+            justify-content: space-between;
             align-items: center;
-            border-color: #46c6d2;
-            border-style: dashed;
-            border-width: 2px;
-            justify-content: flex-start;
+            width: 100%;
+            padding: 10px 0;
         }
 
         .container2 {
-            flex: 0 0 auto;
-            width: 200px;
-            height: 100px;
             display: flex;
             align-items: center;
-            flex-direction: column;
             justify-content: center;
+            color: #FFFFFF;
+            width: 20%;
         }
 
         .text4 {
@@ -70,17 +68,27 @@
         }
 
         .container3 {
-            top: -1px;
-            flex: 0 0 auto;
-            left: 445px;
-            width: 200px;
-            height: 100px;
             display: flex;
-            position: absolute;
-            flex-wrap: wrap;
             align-items: center;
-            flex-direction: column;
             justify-content: center;
+            color: #FFFFFF;
+            width: 20%;
+        }
+
+        .logout-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .logout-btn {
+            background-color: #ff4b5c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
 
         .text5 {
@@ -89,51 +97,147 @@
         }
 
         .container4 {
-            top: 0px;
-            flex: 0 0 auto;
-            left: 878px;
-            width: 299px;
-            height: 100px;
-            margin: auto;
             display: flex;
-            position: absolute;
-            align-items: flex-end;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
+            color: #FFFFFF;
+            width: 20%;
         }
 
         .text6 {
             font-family: Arial, sans-serif;
-            color: #ffffff;
-            width: 269px;
+            color: rgb(251, 251, 251);
         }
 
         .container5 {
-            flex: 0 0 auto;
-            right: 30px;
-            width: 200px;
-            bottom: -4px;
-            height: 100px;
             display: flex;
-            position: absolute;
             align-items: center;
-            flex-direction: column;
             justify-content: center;
+            color: #FFFFFF;
+            width: 20%;
         }
 
         .text7 {
             font-family: Arial, sans-serif;
             color: #ffffff;
         }
+
+        .create-ticket-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            padding: 10px;
+        }
+
+        .create-ticket-btn {
+            background-color: black;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s;
+        }
+
+            .create-ticket-btn:hover {
+                background-color: #349b9d;
+            }
+
+        .ticket-entry {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            cursor: pointer;
+            padding: 10px 0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            color:white;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: #434343; 
+            width: 50%;
+            border-radius: 5px;
+        }
+
+        .search-bar-wrapper {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto; 
+            display: flex;
+
+        }
+
+        #ticketSearch {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #888;
+            border-radius: 25px;
+            font-size: 18px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+            #ticketSearch::placeholder {
+                color: #bbb;
+            }
+
+            #ticketSearch:focus {
+                border-color: #46c6d2;
+            }
+
     </style>
 </head>
+<div class="logout-container">
+    <span style="margin-right: 15px; color: white;">Logged in as: @displayName</span>
+    <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
+<div id="ticketModal" class="modal">
+    <div class="modal-content">
+        <h2>Ticket Details</h2>
+        <p><strong>Subject:</strong> <span id="modalSubject"></span></p>
+        <p><strong>Body:</strong> <span id="modalBody"></span></p>
+    </div>
+</div>
+
 <body>
     <div class="container">
+        <div class="create-ticket-container">
+            <a href="@Url.Action("CreateTicket", "Home")">
+                <button class="create-ticket-btn">Create A New Ticket</button>
+            </a>
+        </div>
         <h1 class="text">
             <span>Your Tickets</span>
             <br>
             <br>
         </h1>
+        <div class="search-bar-wrapper">
+            <input type="text" id="ticketSearch" placeholder="Search for tickets...">
+        </div>
         <div class="container1">
             <div class="container2">
                 <h1 class="text4">Ticket Number</h1>
@@ -148,6 +252,58 @@
                 <h1 class="text7">Status</h1>
             </div>
         </div>
+        @foreach (var ticket in Model)
+        {
+            <div class="ticket-entry" data-subject="@ticket.TicketSubject" data-body="@ticket.TicketBody" onclick="showModal(this)">
+                <div class="container2">
+                    <p>@ticket.TicketId</p>
+                </div>
+                <div class="container3">
+                    <p>@ticket.TicketSubject</p>
+                </div>
+                <div class="container4">
+                    <p>@ticket.TicketCreationDate</p>
+                </div>
+                <div class="container5">
+                    <p style="color: @(ticket.TicketStatus == "Open" ? "#2deb5f" : "#e81c1c")">@ticket.TicketStatus</p>
+                </div>
+            </div>
+        }
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ticketRows = document.querySelectorAll('.ticket-entry');
+            const ticketSearch = document.getElementById('ticketSearch');
+
+            ticketSearch.addEventListener('input', function (e) {
+                const searchTerm = e.target.value.toLowerCase();
+
+                ticketRows.forEach(row => {
+                    const ticketSubject = row.querySelector('.container3 p').textContent.toLowerCase();
+
+                    if (ticketSubject.includes(searchTerm)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+        });
+        function showModal(element) {
+            const subject = element.getAttribute("data-subject");
+            const body = element.getAttribute("data-body");
+            document.getElementById("modalSubject").textContent = subject;
+            document.getElementById("modalBody").textContent = body;
+
+            const modal = document.getElementById("ticketModal");
+            modal.style.display = "block";
+
+            modal.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+    </script>
 </body>
 </html>

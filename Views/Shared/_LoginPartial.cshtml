@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WIL_Project.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<style>
+    .nav-item {
+        margin-right: 10px;
+    }
+
+    .nav-link:hover {
+        text-decoration: none;
+        opacity: 0.8;
+    }
+
+    .btn-outline-light {
+        color: #333;
+        border-color: #333;
+    }
+
+        .btn-outline-light:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+</style>
+
+<ul class="navbar-nav">
+    
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">
+                <i class="fas fa-user-plus"></i> Register
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+        </li>
+    
+</ul>

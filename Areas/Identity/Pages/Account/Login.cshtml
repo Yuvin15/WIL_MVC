@@ -1,0 +1,158 @@
+﻿@page
+@model LoginModel
+@{
+    Layout = null;
+    ViewData["Title"] = "DUT Support Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: linear-gradient(to right, #434343 0%, black 100%);
+        }
+
+        .App {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-size: 50px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .Title {
+            margin-top: 10px;
+            margin-bottom: 100px;
+            font-size: 40px;
+            color: white;
+        }
+
+        .Logo-image {
+            width: auto;
+            height: 210px;
+        }
+
+        .App-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .Input-container {
+            margin: 10px;
+        }
+
+        input[type='text'],
+        input[type='password'] {
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .button-17 {
+            align-items: center;
+            appearance: none;
+            background-color: #fff;
+            border-radius: 24px;
+            border-style: none;
+            box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px, rgba(0, 0, 0, .14) 0 6px 10px 0, rgba(0, 0, 0, .12) 0 1px 18px 0;
+            box-sizing: border-box;
+            color: #3c4043;
+            cursor: pointer;
+            display: inline-flex;
+            fill: currentcolor;
+            font-family: "Google Sans", Roboto, Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            height: 48px;
+            justify-content: center;
+            letter-spacing: .25px;
+            line-height: normal;
+            max-width: 100%;
+            overflow: visible;
+            padding: 2px 24px;
+            position: relative;
+            text-align: center;
+            text-transform: none;
+            transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1), opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            width: auto;
+            will-change: transform, opacity;
+            z-index: 0;
+        }
+
+            .button-17:hover {
+                background: #F6F9FE;
+                color: #174ea6;
+            }
+
+            .button-17:active {
+                box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
+                outline: none;
+            }
+
+            .button-17:focus {
+                outline: none;
+                border: 2px solid #4285f4;
+            }
+    </style>
+</head>
+<body>
+    <div class="App">
+        <h1 class="Title">
+            @ViewData["Title"]
+        </h1>
+        <div>
+            <img src="https://www.dut.ac.za/wp-content/uploads/2021/08/DUTENVLOGO1.jpg" alt="DUT Logo" class="Logo-image" />
+        </div>
+        <h1 class="Title">
+            Click below to log in
+        </h1>
+        <div class="App-header">
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <p>
+                        There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                            article
+                            about setting up this ASP.NET application to support logging in via external services
+                        </a>.
+                    </p>
+                }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal mt-4">
+                        @foreach (var provider in Model.ExternalLogins!)
+                        {
+                            <div class="Input-container">
+                                <button type="submit" class="button-17" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                            </div>
+                        }
+                    </form>
+                }
+            }
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

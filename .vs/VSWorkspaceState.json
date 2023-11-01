@@ -1,9 +1,14 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Areas",
+    "\\Areas\\Identity",
+    "\\Areas\\Identity\\Pages",
+    "\\Areas\\Identity\\Pages\\Account",
+    "\\Controllers",
     "\\Views",
     "\\Views\\Home"
   ],
-  "SelectedNode": "\\Views\\Home\\CreateTicket.cshtml",
+  "SelectedNode": "\\Controllers\\HomeController.cs",
   "PreviewInSolutionExplorer": false
 }

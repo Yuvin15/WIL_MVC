@@ -8,12 +8,14 @@
     <title>DUT Support Page</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             height: 100%;
         }
 
         body {
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -118,22 +120,22 @@
             Welcome to the DUT Support Page
         </h1>
         <div>
-            <img src="https://reactjs.org/logo-og.png" alt="React Logo" class="Logo-image" />
+            <img src="https://www.dut.ac.za/wp-content/uploads/2021/08/DUTENVLOGO1.jpg" alt="DUT Logo" class="Logo-image" />
         </div>
         <div class="App-header">
-            <div class="Input-container">
-                <input type="text" placeholder="Enter Username" />
-            </div>
-            <div class="Input-container">
-                <input type="password" placeholder="Enter Password" />
-            </div>
+            <h1 class="Title">
+                Click the button below to continue
+            </h1>
         </div>
-        <div class="Input-container">
-            <button class="button-17" onclick="goNextPage()">Login</button>
-            <button class="button-17" onclick="goNextPage2()">Login2</button>
-            <button class="button-17" onclick="goNextPage3()">Login3</button>
+      <div class="Input-container">
+            <a href="/Identity/Account/ExternalLogin?provider=Microsoft" class="button-17">Continue</a>
         </div>
+
+
+
     </div>
+
+    <!-- Note: Remember to include the script for the goNextPage function if it's not already included in this page. -->
 
 </body>
 </html>
