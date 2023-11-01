@@ -43,14 +43,14 @@ namespace WIL_Project.Controllers
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
-
+            // This displays all tickets in the db
             List<Ticket> tickets = _obraContext.Tickets.ToList();
             return View(tickets);
         }
-
+        // THe below allows the Staff member send the email to the specfic ticket 
         private static void SendResponse(string toEmail, string subject, string body, string displayName)
         {
-            Console.WriteLine($"{toEmail} {displayName}");
+            Console.WriteLine($"{toEmail} {displayName}"); // Testing do not take out!!
             using (var message = new MimeMessage())
             {
                 message.From.Add(new MailboxAddress("Staff", displayName));
@@ -60,17 +60,17 @@ namespace WIL_Project.Controllers
                 {
                     Text = body
                 };
-
+                // Make use of the Smtp Client to send the email using the above details
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                    client.Authenticate(displayName, "hggv lrox zewq lyot"); // Change this to the password of the gmail account
-
+                    client.Authenticate(displayName, "hggv lrox zewq lyot"); // This will not work after presentation
                     client.Send(message);
                     client.Disconnect(true);
                 }
             }
         }
+        // This gets the data needed to send the email from above from the javascript/text areas in the view
         [HttpPost]
         public IActionResult SendEmailReply([FromBody] EmailReplyModel request)
         {
@@ -80,13 +80,13 @@ namespace WIL_Project.Controllers
                 string displayName = User.FindFirst(ClaimTypes.Name)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
 
                 SendResponse(request.Email, request.Subject, request.Body, displayName);
-                Console.WriteLine("Ticket ID:", ticketId);
+                Console.WriteLine("Ticket ID:", ticketId); // Testing!!!!
                 var ticket = _obraContext.Tickets.FirstOrDefault(t => t.TicketId == ticketId);
                 if (ticket == null)
                 {
                     return NotFound(new { Message = $"Ticket with ID {ticketId} not found." });
                 }
-
+                 // Closes Ticket after the dtaff response to it
                 ticket.TicketStatus = "Closed";
 
                 var newResponse = new TicketResponse
@@ -95,11 +95,11 @@ namespace WIL_Project.Controllers
                     ResponseBody = request.Body,
                     TicketId = ticketId
                 };
-                _obraContext.TicketResponses.Add(newResponse);
+                _obraContext.TicketResponses.Add(newResponse); // Saves to DB
                 _obraContext.SaveChanges();
 
-                return Ok(new { Message = "Email sent!" });
-            }
+                return Ok(new { Message = "Email sent!" }); // Returns this to the view if successful
+            } // Below is to test the errors we got.
             catch (MailKit.Net.Smtp.SmtpCommandException ex)
             {
                 return BadRequest(new { Message = $"SMTP Error: {ex.Message}", StatusCode = ex.StatusCode, Response = ex.Source });
@@ -125,14 +125,14 @@ namespace WIL_Project.Controllers
             try
             {
                 string displayName = User.FindFirst(ClaimTypes.Name)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
-
+                // Gets the list to display in view of students tickets logged in
                 List<Ticket> yourTickets = _obraContext.Tickets
                                                .Where(t => t.UserTicket == displayName)
                                                .ToList();
-
+                // Returns the data to the view
                 return View(yourTickets);
             }
-            catch (Exception ex)
+            catch (Exception ex) // Error handling for testing purposes
             {
                 Console.WriteLine(ex.Message);
 
@@ -156,7 +156,7 @@ namespace WIL_Project.Controllers
         public IActionResult CreateTicket(List<IFormFile> attachments, string subject, string body)
         {
             string displayName = User.FindFirst(ClaimTypes.Name)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
-
+            // Below gets the details to put to the database and then saves it
             try
             {
                 var newTicket = new Ticket
@@ -170,7 +170,7 @@ namespace WIL_Project.Controllers
                 
                 _obraContext.Tickets.Add(newTicket);
                 _obraContext.SaveChanges();
-
+                // Does not work!!! :(
                 if (attachments != null && attachments.Any())
                 {
                     if (attachments.Count > 0)
@@ -187,10 +187,10 @@ namespace WIL_Project.Controllers
                     }
                     _obraContext.SaveChanges();
                 }
-
+                // After creation return to this view
                 return RedirectToAction("YourTickets", "Home");
             }
-            catch (Exception ex)
+            catch (Exception ex) // Exception for testing purposes
             {
                 Console.WriteLine($"Main Exception: {ex.Message}");
                 if (ex.InnerException != null)
@@ -200,7 +200,7 @@ namespace WIL_Project.Controllers
                 return View();
             }
         }
-
+        // This should get the byte from the image/attachment
         private byte[] GetBytesFromFormFile(IFormFile formFile)
         {
             using var memoryStream = new MemoryStream();

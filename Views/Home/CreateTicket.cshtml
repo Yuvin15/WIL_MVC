@@ -161,24 +161,26 @@
         cursor: pointer;
     }
 
-        .modal-close:hover {
-            color: #000;
-        }
+    .modal-close:hover {
+        color: #000;
+    }
 
     .success-modal-content {
+        font-size:medium;
         background-color: #4CAF50;
         color: white;
+        border-radius: 24px;
         border-color: #388E3C;
     }
 
-        .success-modal-content p {
+    .success-modal-content p {
             margin: 0;
-            padding: 0;
-        }
+            border-radius: 24px;
+        padding: 0;
+    }
 
 </style>
 <div class="logout-container">
-    <!-- Display the user's name or email -->
     <span style="margin-right: 15px; color: white;">Logged in as: @displayName</span>
     <form asp-area="Identity" asp-page="/Account/Logout" method="post">
         <button type="submit" class="logout-btn">Logout</button>
@@ -215,11 +217,10 @@
     </form>
 </div>
 
-<!-- Success Modal -->
 <div id="successModal" class="modal-overlay">
     <div class="modal-content success-modal-content">
         <span class="modal-close">&times;</span>
-        <p>Your ticket has been successfully submitted!</p>
+        <p>Your ticket has been successfully submitted! It will be dealt with within 24-48 hours</p>
     </div>
 </div>
 <script>
@@ -240,19 +241,19 @@
         closeBtn.forEach(btn => {
             btn.addEventListener('click', function () {
                 closeSuccessModal();
-                ticketForm.submit(); // Actual form submission after modal closure
+                ticketForm.submit(); 
             });
         });
 
         window.addEventListener('click', function (event) {
             if (event.target === successModal) {
                 closeSuccessModal();
-                ticketForm.submit(); // Actual form submission when clicked outside modal
+                ticketForm.submit(); 
             }
         });
 
         submitTicketBtn.addEventListener('click', function (e) {
-            e.preventDefault(); // Prevent default form submission
+            e.preventDefault(); 
             openSuccessModal();
         });
 
@@ -260,7 +261,7 @@
         var files = event.target.files;
         for (var i = 0; i < files.length && i < 3; i++) {
             var file = files[i];
-            if (file && file.type.startsWith('image/')) { // Ensure it's an image
+            if (file && file.type.startsWith('image/')) { 
                 var reader = new FileReader();
                 reader.onload = (function (imgTag) {
                     return function (e) {

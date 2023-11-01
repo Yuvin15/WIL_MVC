@@ -207,7 +207,6 @@
                 border-color: #46c6d2;
             }
 
-
     </style>
 </head>
 <div class="logout-container">
@@ -282,7 +281,6 @@
                 ticketRows.forEach(row => {
                     const ticketSubject = row.querySelector('.container3 p').textContent.toLowerCase();
 
-                    // Check if the ticketSubject contains the searchTerm
                     if (ticketSubject.includes(searchTerm)) {
                         row.style.display = "";
                     } else {

@@ -9,6 +9,6 @@
     "\\Views",
     "\\Views\\Home"
   ],
-  "SelectedNode": "\\Views\\Home\\AllTickets.cshtml",
+  "SelectedNode": "\\Controllers\\HomeController.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -10,7 +10,6 @@
     <title>All Tickets</title>
     <style>
         html, body {
-            font-family: Arial, sans-serif;
             height: 100%;
             width: 100%;
             margin: 0;
@@ -66,7 +65,6 @@
 
 
         .text4, .text5, .text6, .text7 {
-            font-family: Arial, sans-serif;
             color: rgb(251, 251, 251);
         }
 
@@ -243,7 +241,6 @@
         <textarea id="replyBody" rows="5" cols="50"></textarea><br><br>
         <button id="sendReply">Send</button>
         <button style="float: right;" onclick="closeModal()">Close</button>
-        <!-- Preset Replies -->
         <h3>Presets:</h3>
         <button class="preset-reply" data-text="Thank you for reaching out to us. We will address this issue promptly.">Preset 1</button>
         <button class="preset-reply" data-text="We have received your ticket and are currently reviewing it.">Preset 2</button>
@@ -274,7 +271,6 @@
             ticketRows.forEach(row => {
                 const ticketSubject = row.querySelector('.container3 p').textContent.toLowerCase();
 
-                // Check if the ticketSubject contains the searchTerm
                 if (ticketSubject.includes(searchTerm)) {
                     row.style.display = "";
                 } else {
@@ -282,7 +278,6 @@
                 }
             });
         });
-        // Click event for "Send Reply" button
         document.getElementById('sendReply').addEventListener('click', function () {
             var reply = document.getElementById('replyBody').value;
             var userEmail = document.getElementById('modalEmail').textContent;
@@ -297,10 +292,10 @@
                     email: userEmail,
                     subject: 'Ticket Reply for Ticket ' + ticketId,
                     body: reply,
-                    ticketId: ticketId  // include ticketId in the request body
+                    ticketId: ticketId  
                 }),
             })
-                .then(response => response.json())  // Parse the returned JSON
+                .then(response => response.json())  
                 .then(data => {
                     document.getElementById('popupMessage').textContent = "Sent successfully";
                     document.getElementById('customPopup').style.display = 'block';
@@ -328,7 +323,6 @@
             });
         });
 
-        // Click event for closing the popup
         document.getElementById('popupCloseBtn').addEventListener('click', function () {
             document.getElementById('customPopup').style.display = 'none';
         });
@@ -337,7 +331,6 @@
             button.addEventListener('click', function () {
                 var presetText = this.getAttribute('data-text');
                 var replyTextarea = document.getElementById('replyBody');
-                // Append the preset text to the current content of the textarea
                 replyTextarea.value += presetText;
             });
         });
