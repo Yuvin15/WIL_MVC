@@ -2,7 +2,6 @@
 
 @{
     Layout = null;
-    // Fetch the display name for the logged-in user
     var displayName = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value ?? User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
 }
 
@@ -76,7 +75,6 @@
             width: 20%;
         }
 
-        /* Added styles for the logout button */
         .logout-container {
             position: absolute;
             top: 10px;
@@ -174,16 +172,45 @@
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 20px;
-            background-image: linear-gradient(to right, #434343 0%, black 100%);
+            background: #434343; 
             width: 50%;
             border-radius: 5px;
         }
+
+        .search-bar-wrapper {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto; 
+            display: flex;
+
+        }
+
+        #ticketSearch {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #888;
+            border-radius: 25px;
+            font-size: 18px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+            #ticketSearch::placeholder {
+                color: #bbb;
+            }
+
+            #ticketSearch:focus {
+                border-color: #46c6d2;
+            }
 
 
     </style>
 </head>
 <div class="logout-container">
-    <!-- Display the user's name or email -->
     <span style="margin-right: 15px; color: white;">Logged in as: @displayName</span>
     <form asp-area="Identity" asp-page="/Account/Logout" method="post">
         <button type="submit" class="logout-btn">Logout</button>
@@ -209,6 +236,9 @@
             <br>
             <br>
         </h1>
+        <div class="search-bar-wrapper">
+            <input type="text" id="ticketSearch" placeholder="Search for tickets...">
+        </div>
         <div class="container1">
             <div class="container2">
                 <h1 class="text4">Ticket Number</h1>
@@ -223,7 +253,6 @@
                 <h1 class="text7">Status</h1>
             </div>
         </div>
-        <!-- Display the tickets -->
         @foreach (var ticket in Model)
         {
             <div class="ticket-entry" data-subject="@ticket.TicketSubject" data-body="@ticket.TicketBody" onclick="showModal(this)">
@@ -243,6 +272,25 @@
         }
     </div>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ticketRows = document.querySelectorAll('.ticket-entry');
+            const ticketSearch = document.getElementById('ticketSearch');
+
+            ticketSearch.addEventListener('input', function (e) {
+                const searchTerm = e.target.value.toLowerCase();
+
+                ticketRows.forEach(row => {
+                    const ticketSubject = row.querySelector('.container3 p').textContent.toLowerCase();
+
+                    // Check if the ticketSubject contains the searchTerm
+                    if (ticketSubject.includes(searchTerm)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+        });
         function showModal(element) {
             const subject = element.getAttribute("data-subject");
             const body = element.getAttribute("data-body");

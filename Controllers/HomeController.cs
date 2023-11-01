@@ -4,8 +4,8 @@ using System.Net.Mail;
 using System.Net.Sockets;
 using Microsoft.AspNetCore.Http;
 using WIL_Project.Models;
-using Microsoft.Extensions.Logging;  // ensure this is imported
-using System.IO;   // for MemoryStream
+using Microsoft.Extensions.Logging;  
+using System.IO;   
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,26 +32,17 @@ namespace WIL_Project.Controllers
             _logger = logger;
         }
 
-
         public IActionResult Index() { return View(); }
 
         public IActionResult Privacy() { return View(); }
-        private void SeedTickets()
-        {
-            if (!_obraContext.Tickets.Any())
-            {
-                var tickets = new List<Ticket>
-                {
-                    new Ticket { TicketSubject = "Sample Subject 1", TicketBody = "Testing for now", TicketCreationDate = DateTime.Now, TicketStatus = "Open" },
-                };
-
-                _obraContext.Tickets.AddRange(tickets);
-                _obraContext.SaveChanges();
-            }
-        }
-        [Authorize(Roles = "Staff")]
+        
+        /*[Authorize(Roles = "Staff")]*/
         public IActionResult AllTickets()
         {
+            if (!User.IsInRole("Staff"))
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
 
             List<Ticket> tickets = _obraContext.Tickets.ToList();
             return View(tickets);
@@ -96,7 +87,6 @@ namespace WIL_Project.Controllers
                     return NotFound(new { Message = $"Ticket with ID {ticketId} not found." });
                 }
 
-                // Set the ticket status to closed
                 ticket.TicketStatus = "Closed";
 
                 var newResponse = new TicketResponse
@@ -124,10 +114,14 @@ namespace WIL_Project.Controllers
             }
         }
 
-
-        [Authorize(Roles = "Student")]
+/*
+        [Authorize(Roles = "Student")]*/
         public IActionResult YourTickets()
         {
+            if (!User.IsInRole("Student"))
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
             try
             {
                 string displayName = User.FindFirst(ClaimTypes.Name)?.Value ?? User.FindFirst(ClaimTypes.Email)?.Value;
@@ -145,34 +139,16 @@ namespace WIL_Project.Controllers
                 return View();
             }
 
-            /*try
-            {
-                // Fetch all users from the database
-                var users = _obraContext.Tickets.ToList();
-
-                // Check if there are any users
-                if (!users.Any())
-                {
-                    Console.WriteLine("No users found in the database.");
-                    
-                }
-
-                // Display each user's details in the console
-                foreach (var user in users)
-                {
-                    Console.WriteLine($"UserID: {user.UserTicket}, Email: {user.TicketId}, Full Name: {user.TicketStatus ?? "N/A"}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-            }*/
         }
 
         [HttpGet]
-        [Authorize(Roles = "Student")]
+        /*[Authorize(Roles = "Student")]*/
         public IActionResult CreateTicket()
         {
+            if (!User.IsInRole("Student"))
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
             return View();
         }
 
@@ -191,8 +167,6 @@ namespace WIL_Project.Controllers
                     TicketStatus = "Open",
                     UserTicket = displayName
                 };
-
-                /*_logger.LogInformation(_obraContext.Model.ToDebugString());*/
                 
                 _obraContext.Tickets.Add(newTicket);
                 _obraContext.SaveChanges();

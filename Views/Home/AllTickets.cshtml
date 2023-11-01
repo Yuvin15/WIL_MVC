@@ -1,6 +1,5 @@
 ﻿@{
     Layout = null;
-    // Fetch the display name for the logged-in user
     var displayName = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value ?? User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
 }
 
@@ -44,14 +43,12 @@
             width: 100%;
             position: relative;
             align-items: center;
-            /*border-color: #46c6d2;*/
-            /*border-style: dashed;*/
             border-width: 2px;
             justify-content: space-between;
         }
 
         .ticketsContainer {
-            max-height: calc(100vh - 200px); /* Adjust as needed */
+            max-height: calc(100vh - 200px); 
             overflow-y: auto;
             width: 100%;
             color: #FFFFFF;
@@ -73,7 +70,6 @@
             color: rgb(251, 251, 251);
         }
 
-        /* Added styles for the logout button */
         .logout-container {
             position: absolute;
             top: 10px;
@@ -113,7 +109,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.75);
-            z-index: 10000; /* Sit on top */
+            z-index: 10000;
         }
 
         .custom-popup-content {
@@ -123,7 +119,7 @@
             padding: 20px;
             border-radius: 5px;
             width: 80%;
-            max-width: 500px; /* Might want to size this smaller */
+            max-width: 500px; 
         }
 
         .close-btn {
@@ -155,6 +151,33 @@
                 background-color: #555;
             }
 
+        .search-bar-wrapper {
+            margin: 20px 0; 
+            width: 60%; 
+            max-width: 600px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #ticketSearch {
+            width: 100%; 
+            padding: 10px 15px; 
+            border: 2px solid #888; 
+            border-radius: 25px; 
+            font-size: 18px; 
+            outline: none; 
+            transition: border-color 0.3s; 
+        }
+
+            #ticketSearch::placeholder {
+                color: #bbb; 
+            }
+
+            #ticketSearch:focus {
+                border-color: #46c6d2; 
+            }
+
     </style>
 </head>
 <body>
@@ -170,6 +193,9 @@
             <br>
             <br>
         </h1>
+        <div class="search-bar-wrapper">
+            <input type="text" id="ticketSearch" placeholder="Search for tickets...">
+        </div>
         <div class="header">
             <div class="container2">
                 <h1 class="text4">Ticket Number</h1>
@@ -242,7 +268,20 @@
         function closeModal() {
             document.getElementById('ticketModal').style.display = 'none';
         }
+        document.getElementById('ticketSearch').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
 
+            ticketRows.forEach(row => {
+                const ticketSubject = row.querySelector('.container3 p').textContent.toLowerCase();
+
+                // Check if the ticketSubject contains the searchTerm
+                if (ticketSubject.includes(searchTerm)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
         // Click event for "Send Reply" button
         document.getElementById('sendReply').addEventListener('click', function () {
             var reply = document.getElementById('replyBody').value;
