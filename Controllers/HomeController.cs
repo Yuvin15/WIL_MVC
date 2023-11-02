@@ -64,7 +64,7 @@ namespace WIL_Project.Controllers
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                    client.Authenticate(displayName, "hggv lrox zewq lyot"); // This will not work after presentation
+                    client.Authenticate(displayName, ""); // This will not work after presentation
                     client.Send(message);
                     client.Disconnect(true);
                 }
